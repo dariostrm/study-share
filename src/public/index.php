@@ -12,7 +12,8 @@
     <?php include_once '../components/navbar.php'; ?>
 
     <?php
-
+    //parse_url extracts the url path
+    //e.g. http://study-share.site/home will just return home (it will cut off the domain)
     $url = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
     switch($url) {
