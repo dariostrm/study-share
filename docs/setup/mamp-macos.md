@@ -36,6 +36,14 @@ git clone git@github.com:DarioLoll/study-share.git
 4. Select the folder `public`folder at: `study-share/src/public` and click `Choose`
 5. Click on `OK`
 
+To make sure apache always redirects to `index.php` and let the php handle the routing:
+1. Go to the folder `/Applications/MAMP/conf/apache/`
+2. Open the file `httpd.conf`
+3. Find the line `#LoadModule rewrite_module libexec/apache2/mod_rewrite.so`
+4. Make sure the line is uncommented by removing the `#` at the beginning
+5. Save the file
+6. Restart the MAMP app by clicking on `Stop` and then `Start`
+
 --- 
 ## 4. Create the database
 
