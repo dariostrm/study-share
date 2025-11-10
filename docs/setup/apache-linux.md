@@ -110,6 +110,11 @@ DocumentRoot "/var/www/html/study-share/src/public"
 </Directory>
 ```
 
+To make sure apache always redirects to `index.php` and let the php handle the routing:
+1. Find the line `#LoadModule rewrite_module libexec/apache2/mod_rewrite.so`
+2. Make sure the line is uncommented by removing the `#` at the beginning
+3. Save the file
+
 Reload the config
 ```bash
 sudo systemctl reload apache2

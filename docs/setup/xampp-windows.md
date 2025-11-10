@@ -43,8 +43,12 @@ DocumentRoot "C:/xampp/htdocs/study-share/src/public"
 
 <Directory "C:/xampp/htdocs/study-share/src/public">
 ```
-4. Save the file and close your editor.
-5. Restart Apache from the XAMPP Control Panel for changes to take effect.
+
+To make sure apache always redirects to `index.php` and let the php handle the routing:
+1. Find the line `#LoadModule rewrite_module libexec/apache2/mod_rewrite.so`
+2. Make sure the line is uncommented by removing the `#` at the beginning
+3. Save the file and close your editor.
+4. Restart Apache from the XAMPP Control Panel for changes to take effect.
 
 ---
 ## 4. Create the Database
