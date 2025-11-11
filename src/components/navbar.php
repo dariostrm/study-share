@@ -1,6 +1,9 @@
 <?php
 //the isLoggedIn variable is defined in index.php
 /** @var bool $isLoggedIn */
+
+//the route variable is defined in index.php
+/** @var string $route */
 ?>
 
 <nav class="navbar navbar-expand-lg p-3">
@@ -19,26 +22,43 @@
                     Study Share
                 </a>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="home">Home</a>
+                    <a href="/home"
+                       class="nav-link <?php echo $route === 'home' ? 'active' : ''; ?>">
+                        Home
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Browse</a>
+                    <a href="/browse"
+                       class="nav-link <?php echo $route === 'browse' ? 'active' : ''; ?>">
+                        Browse
+                    </a>
                 </li>
             </ul>
             <ul class="navbar-nav col-lg order-lg-last d-lg-flex justify-content-end">
                 <?php if (!$isLoggedIn): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="login">Login</a>
+                        <a href="/login"
+                           class="nav-link <?php echo $route === 'login' ? 'active' : ''; ?>">
+                            Login
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="sign-up">Sign-Up</a>
+                        <a href="/sign-up"
+                           class="nav-link <?php echo $route === 'sign-up' ? 'active' : ''; ?>">
+                            Sign Up
+                        </a>
                     </li>
                 <?php else: ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Profile</a>
+                        <a href="/profile"
+                           class="nav-link <?php echo $route === 'profile' ? 'active' : ''; ?>">
+                            Profile
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
+                        <a href="/logout" class="btn btn-outline-danger">
+                            Logout
+                        </a>
                     </li>
                 <?php endif; ?>
             </ul>

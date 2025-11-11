@@ -12,32 +12,32 @@
 
     <?php
         session_start();
-        $isLoggedIn = isset($_SESSION['user_id'])
+        $isLoggedIn = isset($_SESSION['user_id']);
+
+        //parse_url extracts the url path
+        //e.g. http://study-share.site/home will just return home (it will cut off the domain)
+        $route = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
     ?>
 
     <?php include_once '../components/navbar.php'; ?>
 
     <?php
-    //parse_url extracts the url path
-    //e.g. http://study-share.site/home will just return home (it will cut off the domain)
-    $url = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-
-    switch($url) {
-        case 'home':
-        case '': // Default page (if no URL is specified)
-            require __DIR__ . '/../pages/home-page.php';
-            break;
-        case 'login':
-            require __DIR__ . '/../pages/login-page.php';
-            break;
-        case 'sign-up':
-            require __DIR__ . '/../pages/sign-up-page.php';
-            break;
-        default:
-            http_response_code(404);
-            echo "Page not found";
-            break;
-    }
+        switch($route) {
+            case 'home':
+            case '': // Default page (if no URL is specified)
+                require __DIR__ . '/../pages/home-page.php';
+                break;
+            case 'login':
+                require __DIR__ . '/../pages/login-page.php';
+                break;
+            case 'sign-up':
+                require __DIR__ . '/../pages/sign-up-page.php';
+                break;
+            default:
+                http_response_code(404);
+                echo "Page not found";
+                break;
+        }
     ?>
 
 </body>
