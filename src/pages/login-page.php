@@ -1,5 +1,13 @@
 <?php
-
+    if (isset($_SESSION['user_id'])) {
+        header("Location: /profile");
+        exit;
+    }
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_SESSION['user_id'] = htmlspecialchars($_POST['username']);
+        header("Location: /home");
+        exit;
+    }
 ?>
 
 <div class="d-flex flex-column justify-content-center align-items-center vh-100">
@@ -9,7 +17,7 @@
             <p class="text-muted">
                 First time here? <a href="/sign-up">Sign Up</a>
             </p>
-            <form action="./login-page.php" method="post" class="d-flex flex-column gap-3">
+            <form action="<?php echo $_SERVER['REQUEST_URI']?>" method="post" class="d-flex flex-column gap-3">
                 <div class="form-floating">
                     <input type="text" class="form-control" id="username"
                            name="username" placeholder="username" required>
