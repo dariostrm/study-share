@@ -5,9 +5,9 @@
 <div class="d-flex flex-column justify-content-center align-items-center vh-100">
     <div class="card bg-dark-subtle px-3 py-4 rounded-4">
         <div class="card-body d-flex flex-column align-items-center gap-1">
-            <h2>Sign Up</h2>
+            <h2>Reset Password</h2>
             <p class="text-muted">
-                Already have an account? <a href="/login">Login</a>
+                Back to <a href="/login">Login</a>
             </p>
             <form action="./sign-up-page.php" method="post" class="d-flex flex-column gap-3">
                 <div class="form-floating">
@@ -16,14 +16,9 @@
                     <label for="email">E-Mail</label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="username"
-                           name="username" placeholder="Username" required>
-                    <label for="username">Username</label>
-                </div>
-                <div class="form-floating">
-                    <input type="password" class="form-control" placeholder="Password"
+                    <input type="password" class="form-control" placeholder="New Password"
                            id="password" name="password" required>
-                    <label for="password">Password</label>
+                    <label for="password">New Password</label>
                 </div>
                 <div class="form-floating">
                     <input type="password" class="form-control" placeholder="Confirm Password"
