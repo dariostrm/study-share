@@ -8,27 +8,45 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/styles/styles.css">
 </head>
-<body data-bs-theme="dark">
+<body data-bs-theme="dark" class="d-flex flex-column vh-100">
+
+    <?php
+        session_start();
+        $isLoggedIn = isset($_SESSION['user_id']);
+
+        //parse_url extracts the url path
+        //e.g. http://study-share.site/home will just return home (it will cut off the domain)
+        $route = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+    ?>
+
     <?php include_once '../components/navbar.php'; ?>
 
     <?php
-    //parse_url extracts the url path
-    //e.g. http://study-share.site/home will just return home (it will cut off the domain)
-    $url = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-
-    switch($url) {
-        case 'home':
-        case '': // Default page (if no URL is specified)
-            require __DIR__ . '/../pages/home-page.php';
-            break;
-        case 'login':
-            require __DIR__ . '/../pages/login-page.php';
-            break;
-        default:
-            http_response_code(404);
-            echo "Page not found";
-            break;
-    }
+        switch($route) {
+            case 'home':
+            case '': // Default page (if no URL is specified)
+                require __DIR__ . '/../pages/home-page.php';
+                break;
+            case 'login':
+                require __DIR__ . '/../pages/login-page.php';
+                break;
+            case 'sign-up':
+                require __DIR__ . '/../pages/sign-up-page.php';
+                break;
+            case 'profile':
+                require __DIR__ . '/../pages/profile-page.php';
+                break;
+            case 'logout':
+                require __DIR__ . '/../pages/logout-page.php';
+                break;
+            case 'forgot-password':
+                require __DIR__ . '/../pages/forgot-password-page.php';
+                break;
+            default:
+                http_response_code(404);
+                echo "Page not found";
+                break;
+        }
     ?>
 
 </body>
