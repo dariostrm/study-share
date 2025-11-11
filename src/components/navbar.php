@@ -1,5 +1,6 @@
 <?php
-
+//the isLoggedIn variable is defined in index.php
+/** @var bool $isLoggedIn */
 ?>
 
 <nav class="navbar navbar-expand-lg p-3">
@@ -25,9 +26,21 @@
                 </li>
             </ul>
             <ul class="navbar-nav col-lg order-lg-last d-lg-flex justify-content-end">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Sign-in</a>
-                </li>
+                <?php if (!$isLoggedIn): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sign-up">Sign-Up</a>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                <?php endif; ?>
             </ul>
             <form class="d-flex col-lg order-lg-2" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

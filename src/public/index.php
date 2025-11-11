@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="/styles/styles.css">
 </head>
 <body data-bs-theme="dark">
+
+    <?php
+        session_start();
+        $isLoggedIn = isset($_SESSION['user_id'])
+    ?>
+
     <?php include_once '../components/navbar.php'; ?>
 
     <?php
@@ -23,6 +29,9 @@
             break;
         case 'login':
             require __DIR__ . '/../pages/login-page.php';
+            break;
+        case 'sign-up':
+            require __DIR__ . '/../pages/sign-up-page.php';
             break;
         default:
             http_response_code(404);
