@@ -33,6 +33,15 @@
             case 'sign-up':
                 require __DIR__ . '/../pages/sign-up-page.php';
                 break;
+            case 'profile':
+                require __DIR__ . '/../pages/profile-page.php';
+                break;
+            case 'logout':
+                require __DIR__ . '/../pages/logout-page.php';
+                break;
+            case 'forgot-password':
+                require __DIR__ . '/../pages/forgot-password-page.php';
+                break;
             default:
                 http_response_code(404);
                 echo "Page not found";

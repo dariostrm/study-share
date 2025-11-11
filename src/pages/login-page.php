@@ -3,19 +3,26 @@
 ?>
 
 <div class="d-flex flex-column justify-content-center align-items-center vh-100">
-    <div class="card">
-        <div class="card-body d-flex flex-column align-items-center">
-            <h1 class="mb-3">Login</h1>
-            <form action="./login-page.php" method="post" class="d-flex flex-column">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
+    <div class="card bg-dark-subtle px-3 py-4 rounded-4">
+        <div class="card-body d-flex flex-column align-items-center gap-1">
+            <h2>Login</h2>
+            <p class="text-muted">
+                First time here? <a href="/sign-up">Sign Up</a>
+            </p>
+            <form action="./login-page.php" method="post" class="d-flex flex-column gap-3">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="username"
+                           name="username" placeholder="username" required>
+                    <label for="username">Username</label>
                 </div>
-                <div class="mb-4">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                <div class="form-floating">
+                    <input type="password" class="form-control" placeholder="Password"
+                           id="password" name="password" required>
+                    <label for="password">Password</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <a href="/forgot-password">Forgot Password?</a>
+
+                <button type="submit" class="btn btn-primary mt-4">Login</button>
             </form>
         </div>
     </div>
