@@ -5,7 +5,7 @@ use Domain\School;
 /** @var School $school */
 ?>
 
-<div class="btn btn-dark border w-100 p-0">
+<a href="<?php echo "/schools/" . $school->id ?>" class="btn btn-dark border w-100 p-0">
     <div class="container p-0">
         <div class="row">
             <div class="col-4 d-none d-lg-block">
@@ -44,4 +44,4 @@ use Domain\School;
             </div>
         </div>
     </div>
-</div>
+</a>

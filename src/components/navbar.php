@@ -3,7 +3,7 @@
 /** @var bool $isLoggedIn */
 
 //the route variable is defined in index.php
-/** @var string $route */
+/** @var string $page */
 ?>
 
 <nav class="navbar navbar-expand-lg p-3">
@@ -23,13 +23,13 @@
                 </a>
                 <li class="nav-item">
                     <a href="/home"
-                       class="nav-link <?php echo $route === 'home' ? 'active' : ''; ?>">
+                       class="nav-link <?php echo $page === 'home' ? 'active' : ''; ?>">
                         Home
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="/browse"
-                       class="nav-link <?php echo $route === 'browse' ? 'active' : ''; ?>">
+                       class="nav-link <?php echo $page === 'browse' ? 'active' : ''; ?>">
                         Browse
                     </a>
                 </li>
@@ -38,20 +38,20 @@
                 <?php if (!$isLoggedIn): ?>
                     <li class="nav-item">
                         <a href="/login"
-                           class="nav-link <?php echo $route === 'login' ? 'active' : ''; ?>">
+                           class="nav-link <?php echo $page === 'login' ? 'active' : ''; ?>">
                             Login
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="/sign-up"
-                           class="nav-link <?php echo $route === 'sign-up' ? 'active' : ''; ?>">
+                           class="nav-link <?php echo $page === 'sign-up' ? 'active' : ''; ?>">
                             Sign Up
                         </a>
                     </li>
                 <?php else: ?>
                     <li class="nav-item">
                         <a href="/profile"
-                           class="nav-link <?php echo $route === 'profile' ? 'active' : ''; ?>">
+                           class="nav-link <?php echo $page === 'profile' ? 'active' : ''; ?>">
                             Profile
                         </a>
                     </li>
