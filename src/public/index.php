@@ -42,6 +42,9 @@
             case 'forgot-password':
                 require __DIR__ . '/../pages/forgot-password-page.php';
                 break;
+            case 'browse':
+                require __DIR__ . '/../pages/browse-page.php';
+                break;
             default:
                 http_response_code(404);
                 echo "Page not found";

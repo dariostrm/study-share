@@ -1,6 +1,6 @@
 <?php
     if (isset($_SESSION['user_id'])) {
-        header("Location: /profile");
+        header("Location: /home");
         exit;
     }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -11,7 +11,7 @@
 ?>
 
 <div class="container h-100">
-    <div class="row h-100 d-flex flex-column justify-content-center align-items-center">
+    <div class="row h-100 d-flex justify-content-center align-items-center">
         <div class="card col-10 col-md-8 col-lg-6 col-xl-4 bg-dark-subtle p-4 rounded-4">
             <div class="card-body d-flex flex-column align-items-center gap-1 w-100">
                 <h2>Login</h2>

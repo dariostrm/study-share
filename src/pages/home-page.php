@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../domain/Note.php';
 use Domain\Note;
 
+
+
 $notes = [
     new Note(
         id: 1,
@@ -45,7 +47,7 @@ $notes = [
 <div class="container mt-3">
     <div class="row">
         <?php foreach ($notes as $note): ?>
-            <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3 d-flex justify-content-center">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3 d-flex justify-content-center align-items-stretch">
                 <?php require '../components/note_card.php'; ?>
             </div>
         <?php endforeach; ?>
