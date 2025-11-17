@@ -56,7 +56,7 @@ $schools = [
 
     <?php foreach ($schools as $school): ?>
         <div class="row d-flex justify-content-center">
-            <div class="col-12 col-md-10 col-xl-8 bg-danger my-2">
+            <div class="col-12 col-md-10 col-xl-8 my-2">
                 <?php require '../components/school_card.php'; ?>
             </div>
         </div>
