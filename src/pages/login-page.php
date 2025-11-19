@@ -1,17 +1,15 @@
 <?php
-require_once __DIR__ . '/../domain/User.php';
 require_once __DIR__ . '/../lib/SchoolRepository.php';
 
-use Domain\User;
 use Lib\SchoolRepository;
 
-if (isset($_SESSION['user'])) {
+if (isset($_SESSION['username'])) {
     header("Location: /home");
     exit;
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-
+    $_SESSION['username'] = htmlspecialchars($_POST['username']);
     header("Location: /home");
     exit;
 }

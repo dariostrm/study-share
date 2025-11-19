@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                 <div class="d-flex flex-column gap-3 w-100">
                     <div class="form-floating">
                         <input type="email" class="form-control" id="email"
-                            name="email" placeholder="E-Mail" required value="<?php echo htmlspecialchars($_SESSION['user']->email ?? '') ?>">
+                            name="email" placeholder="E-Mail" required value="<?php echo htmlspecialchars($_SESSION['email']) ?>">
                         <label for="email">E-Mail</label>
                     </div>
                 </div>
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                 <div class="d-flex flex-column gap-3 w-100">
                     <div class="form-floating">
                         <input type="text" class="form-control" id="username"
-                            name="username" placeholder="Username" required value="<?php echo htmlspecialchars($_SESSION['user']->username ?? '') ?>">
+                            name="username" placeholder="Username" required value="<?php echo htmlspecialchars($_SESSION['username']) ?>">
                         <label for="username">Username</label>
                     </div>
                 </div>
