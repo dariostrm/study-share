@@ -37,14 +37,14 @@ $degrees = $school->getDegrees();
                 <h2>Choose Degree</h2>
                 <form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="post" class="d-flex flex-column gap-3 w-100">
                     <div class="form-floating">
-                        <input list="degreeList" name="degree" class="form-control"
-                            placeholder="Degree">
-                        <label for="degree">Degree</label>
-                        <datalist id="degreeList">
+                        <select class="form-select" id="floatingSelect" name="degree" aria-label="Select degree">
                             <?php foreach ($degrees as $degree): ?>
                                 <option value="<?= htmlspecialchars($degree->name) ?>">
-                                <?php endforeach; ?>
-                        </datalist>
+                                    <?= htmlspecialchars($degree->name) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <label for="floatingSelect">Degree</label>
                     </div>
 
                     <button type="submit" class="btn btn-primary mt-4">Confirm</button>

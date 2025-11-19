@@ -3,6 +3,8 @@ require_once __DIR__ . '/../lib/SchoolRepository.php';
 
 use Lib\SchoolRepository;
 
+$error = '';
+
 //** @var SchoolRepository $schoolRepository */
 $schools = $schoolRepository->getAllSchools() ?? [];
 
@@ -12,16 +14,19 @@ if (isset($_SESSION['username'])) {
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $_SESSION['username'] = htmlspecialchars($_POST['username']);
-    $_SESSION['email'] = htmlspecialchars($_POST['email']);
+    $username = htmlspecialchars($_POST['username']);
+    $email = htmlspecialchars($_POST['email']);
     $schoolName = htmlspecialchars($_POST['school'] ?? '');
     $schoolId = $schoolRepository->getSchoolByName($schoolName)?->id ?? null;
     if ($schoolId) {
+        $_SESSION['username'] = $username;
+        $_SESSION['email'] = $email;
         $_SESSION['schoolId'] = $schoolId;
+        header("Location: /choose-degree");
+        exit;
+    } else {
+        $error = 'Selected school does not exist.';
     }
-
-    header("Location: /choose-degree");
-    exit;
 }
 ?>
 
@@ -46,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <div class="form-floating">
                         <input list="schoolList" name="school" class="form-control"
-                            placeholder="School">
+                            placeholder="School" required>
                         <label for="school">School</label>
                         <datalist id="schoolList">
                             <?php foreach ($schools as $school): ?>
@@ -64,6 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             id="confirm" name="confirm" required>
                         <label for="confirm">Confirm Password</label>
                     </div>
+
+                    <?php if ($error): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo htmlspecialchars($error) ?>
+                        </div>
+                    <?php endif; ?>
 
                     <button type="submit" class="btn btn-primary mt-4">Continue</button>
                 </form>
