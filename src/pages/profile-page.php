@@ -7,19 +7,6 @@ use Domain\Degree;
 use Domain\School;
 use Lib\SchoolRepository;
 
-/** @var SchoolRepository $schoolRepository */
-$schools = $schoolRepository->getAllSchools() ?? [];
-$degrees = [];
-if (isset($_SESSION['schoolId'])) {
-    $school = $schoolRepository->getSchoolById($_SESSION['schoolId']);
-    if ($school) {
-        $degrees = $school->getDegrees();
-        if (isset($_SESSION['degreeId'])) {
-            $degree = $school?->getDegreeById($_SESSION['degreeId']);
-        }
-    }
-}
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
     $_SESSION['username'] = htmlspecialchars($_POST['username']);
     $_SESSION['email'] = htmlspecialchars($_POST['email']);
@@ -32,6 +19,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
     $_SESSION['degreeId'] = $degree?->id ?? null;
     header("Location: /profile");
     exit;
+}
+
+/** @var SchoolRepository $schoolRepository */
+
+$schools = $schoolRepository->getAllSchools() ?? [];
+$degrees = [];
+if (isset($_SESSION['schoolId'])) {
+    $school = $schoolRepository->getSchoolById($_SESSION['schoolId']);
+    if ($school) {
+        $degrees = $school->getDegrees();
+        if (isset($_SESSION['degreeId'])) {
+            $degree = $school?->getDegreeById($_SESSION['degreeId']);
+        }
+    }
 }
 
 ?>
@@ -79,14 +80,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
             </div>
             <div class="col-12 col-lg-6 rounded-4 d-flex flex-column align-items-center gap-1 my-2">
                 <div class="d-flex flex-column gap-3 w-100 form-floating">
-                    <input list="degreeList" name="degree" class="form-control"
-                        placeholder="Degree" value="<?php echo htmlspecialchars($degree->name ?? '') ?>">
-                    <label for="degree">Degree</label>
-                    <datalist id="degreeList">
-                        <?php foreach ($degrees as $degree): ?>
-                            <option value="<?= htmlspecialchars($degree->name) ?>">
+                    <div class="form-floating">
+                        <select class="form-select" id="degreeSelect" name="degree" aria-label="Select degree">
+                            <?php foreach ($degrees as $deg): ?>
+                                <option value="<?= htmlspecialchars($deg->name) ?>"
+                                    <?php if ($degree->name === $deg->name) echo 'selected'; ?>>
+                                    <?= htmlspecialchars($deg->name) ?>
+                                </option>
                             <?php endforeach; ?>
-                    </datalist>
+                        </select>
+                        <label for="degreeSelect">Degree</label>
+                    </div>
                 </div>
             </div>
         </div>
