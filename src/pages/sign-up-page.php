@@ -1,13 +1,14 @@
 <?php
-    if (isset($_SESSION['user_id'])) {
-        header("Location: /profile");
-        exit;
-    }
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $_SESSION['user_id'] = htmlspecialchars($_POST['username']);
-        header("Location: /home");
-        exit;
-    }
+if (isset($_SESSION['user_id'])) {
+    header("Location: /profile");
+    exit;
+}
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $_SESSION['user_id'] = htmlspecialchars($_POST['username']);
+    $_SESSION['user_email'] = htmlspecialchars($_POST['email']);
+    header("Location: /home");
+    exit;
+}
 ?>
 
 <div class="container h-100">
@@ -18,25 +19,25 @@
                 <p class="text-muted">
                     Already have an account? <a href="/login">Login</a>
                 </p>
-                <form action="<?php echo $_SERVER['REQUEST_URI']?>" method="post" class="d-flex flex-column gap-3 w-100">
+                <form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="post" class="d-flex flex-column gap-3 w-100">
                     <div class="form-floating">
                         <input type="email" class="form-control" id="email"
-                               name="email" placeholder="E-Mail" required>
+                            name="email" placeholder="E-Mail" required>
                         <label for="email">E-Mail</label>
                     </div>
                     <div class="form-floating">
                         <input type="text" class="form-control" id="username"
-                               name="username" placeholder="Username" required>
+                            name="username" placeholder="Username" required>
                         <label for="username">Username</label>
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" placeholder="Password"
-                               id="password" name="password" required>
+                            id="password" name="password" required>
                         <label for="password">Password</label>
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" placeholder="Confirm Password"
-                               id="confirm" name="confirm" required>
+                            id="confirm" name="confirm" required>
                         <label for="confirm">Confirm Password</label>
                     </div>
 

@@ -13,17 +13,17 @@
                 <form action="./sign-up-page.php" method="post" class="d-flex flex-column gap-3 w-100">
                     <div class="form-floating">
                         <input type="email" class="form-control" id="email"
-                               name="email" placeholder="E-Mail" required>
+                            name="email" placeholder="E-Mail" required>
                         <label for="email">E-Mail</label>
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" placeholder="New Password"
-                               id="password" name="password" required>
+                            id="password" name="password" required>
                         <label for="password">New Password</label>
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" placeholder="Confirm Password"
-                               id="confirm" name="confirm" required>
+                            id="confirm" name="confirm" required>
                         <label for="confirm">Confirm Password</label>
                     </div>
 

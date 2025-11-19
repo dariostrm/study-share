@@ -1,13 +1,14 @@
 <?php
-    if (isset($_SESSION['user_id'])) {
-        header("Location: /home");
-        exit;
-    }
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $_SESSION['user_id'] = htmlspecialchars($_POST['username']);
-        header("Location: /home");
-        exit;
-    }
+if (isset($_SESSION['user_id'])) {
+    header("Location: /home");
+    exit;
+}
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $_SESSION['user_id'] = htmlspecialchars($_POST['username']);
+    $_SESSION['user_email'] = htmlspecialchars($_POST['email']);
+    header("Location: /home");
+    exit;
+}
 ?>
 
 <div class="container h-100">
@@ -18,18 +19,18 @@
                 <p class="text-muted">
                     First time here? <a href="/sign-up">Sign Up</a>
                 </p>
-                <form action="<?php echo $_SERVER['REQUEST_URI']?>" method="post" class="d-flex flex-column gap-3 w-100">
+                <form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="post" class="d-flex flex-column gap-3 w-100">
                     <div class="form-floating">
                         <input type="text" class="form-control" id="username"
-                               name="username" placeholder="username" required>
+                            name="username" placeholder="username" required>
                         <label for="username">Username</label>
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" placeholder="Password"
-                               id="password" name="password" required>
+                            id="password" name="password" required>
                         <label for="password">Password</label>
                     </div>
-                    <a href="/forgot-password">Forgot Password?</a>
+                    <a href="/reset-password">Forgot Password?</a>
 
                     <button type="submit" class="btn btn-primary mt-4">Login</button>
                 </form>

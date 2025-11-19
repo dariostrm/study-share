@@ -44,8 +44,8 @@
         case 'logout':
             require __DIR__ . '/../pages/logout-page.php';
             break;
-        case 'forgot-password':
-            require __DIR__ . '/../pages/forgot-password-page.php';
+        case 'reset-password':
+            require __DIR__ . '/../pages/reset-password-page.php';
             break;
         case 'browse':
             require __DIR__ . '/../pages/browse-page.php';
