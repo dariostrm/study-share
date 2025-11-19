@@ -16,12 +16,14 @@ $schools = [
             new Degree(
                 id: 1,
                 schoolId: 1,
+                semesterCount: 6,
                 name: "Computer Science",
                 studentCount: 2000
             ),
             new Degree(
                 id: 2,
                 schoolId: 1,
+                semesterCount: 6,
                 name: "Information Technology",
                 studentCount: 1500
             ),
@@ -38,11 +40,13 @@ $schools = [
                 id: 3,
                 schoolId: 2,
                 name: "Biology",
+                semesterCount: 6,
                 studentCount: 1200
             ),
             new Degree(
                 id: 4,
                 schoolId: 2,
+                semesterCount: 6,
                 name: "Chemistry",
                 studentCount: 800
             ),
