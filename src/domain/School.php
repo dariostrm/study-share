@@ -1,5 +1,7 @@
 <?php
 namespace Domain;
+
+require_once __DIR__ . '/Degree.php';
 use Domain\Degree;
 
 
@@ -40,5 +42,25 @@ class School
     public function removeDegree(int $degreeId): void
     {
         $this->degrees = array_filter($this->degrees, fn($degree) => $degree->id !== $degreeId);
+    }
+
+    public function getDegreeById(int $degreeId): ?Degree
+    {
+        foreach ($this->degrees as $degree) {
+            if ($degree->id === $degreeId) {
+                return $degree;
+            }
+        }
+        return null;
+    }
+
+    public function getDegreeByName(string $degreeName): ?Degree
+    {
+        foreach ($this->degrees as $degree) {
+            if ($degree->name === $degreeName) {
+                return $degree;
+            }
+        }
+        return null;
     }
 }

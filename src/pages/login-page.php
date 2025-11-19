@@ -1,11 +1,17 @@
 <?php
-if (isset($_SESSION['user_id'])) {
+require_once __DIR__ . '/../domain/User.php';
+require_once __DIR__ . '/../lib/SchoolRepository.php';
+
+use Domain\User;
+use Lib\SchoolRepository;
+
+if (isset($_SESSION['user'])) {
     header("Location: /home");
     exit;
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $_SESSION['user_id'] = htmlspecialchars($_POST['username']);
-    $_SESSION['user_email'] = htmlspecialchars($_POST['email']);
+
+
     header("Location: /home");
     exit;
 }

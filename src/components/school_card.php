@@ -1,11 +1,12 @@
 <?php
+require_once __DIR__ . '/../domain/School.php';
 
 use Domain\School;
 
 /** @var School $school */
 ?>
 
-<a href="<?php echo "/schools/" . $school->id ?>" class="btn btn-dark border w-100 p-0">
+<a href="<?php echo "/school/" . $school->id ?>" class="btn btn-dark border w-100 p-0">
     <div class="container p-0">
         <div class="row">
             <div class="col-4 d-none d-lg-block">

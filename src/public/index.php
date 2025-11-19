@@ -14,7 +14,14 @@
 
     <?php
     session_start();
-    $isLoggedIn = isset($_SESSION['user_id']);
+
+    require_once __DIR__ . '/../lib/SchoolRepository.php';
+
+    use Lib\SchoolRepository;
+
+    $schoolRepository = new SchoolRepository();
+
+    $isLoggedIn = isset($_SESSION['username']);
 
     //parse_url extracts the url path
     //e.g. http://study-share.site/home will just return home (it will cut off the domain)
@@ -38,6 +45,9 @@
         case 'sign-up':
             require __DIR__ . '/../pages/sign-up-page.php';
             break;
+        case 'choose-degree':
+            require __DIR__ . '/../pages/choose-degree-page.php';
+            break;
         case 'profile':
             require __DIR__ . '/../pages/profile-page.php';
             break;
@@ -50,25 +60,33 @@
         case 'browse':
             require __DIR__ . '/../pages/browse-page.php';
             break;
-        case 'schools':
-            // Handle school details page
+        case 'school':
             $schoolId = $routeSegments[1] ?? null;
-            if ($schoolId) {
-                require __DIR__ . '/../pages/school-details-page.php';
-            } else {
+
+            if (!$schoolId) {
                 http_response_code(404);
                 echo "School not found";
+                break;
             }
-            break;
-        case 'degrees':
-            // Handle degree details page
-            $degreeId = $routeSegments[1] ?? null;
-            if ($degreeId) {
+
+            // Check if next segment is "degree"
+            if (isset($routeSegments[2]) && $routeSegments[2] === 'degree') {
+                // Example: /school/5/degree/10
+                $degreeId = $routeSegments[3] ?? null;
+
+                if (!$degreeId) {
+                    http_response_code(404);
+                    echo "Degree not found";
+                    break;
+                }
+
+                // Nested degree page
                 require __DIR__ . '/../pages/degree-details-page.php';
-            } else {
-                http_response_code(404);
-                echo "Degree not found";
+                break;
             }
+
+            // Default: school page
+            require __DIR__ . '/../pages/school-details-page.php';
             break;
         default:
             http_response_code(404);

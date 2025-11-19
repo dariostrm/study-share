@@ -1,16 +1,19 @@
-
 <?php
-    /* @var \domain\Note $note */
+require_once __DIR__ . '/../domain/Note.php';
+
+use Domain\Note;
+
+/** @var Note $note */
 ?>
 
 <div class="card" style="width: 18rem;">
     <div class="card-body">
-            <span class="badge text-bg-secondary mb-2">
-                <?= $note->subject ?>
-            </span>
         <span class="badge text-bg-secondary mb-2">
-                <?= $note->grade ?>
-            </span>
+            <?= $note->subject ?>
+        </span>
+        <span class="badge text-bg-secondary mb-2">
+            <?= $note->grade ?>
+        </span>
         <h3 class="card-title">
             <?= $note->title ?>
         </h3>
@@ -25,5 +28,3 @@
         <a href="#" class="btn btn-primary">Download</a>
     </div>
 </div>
-
-

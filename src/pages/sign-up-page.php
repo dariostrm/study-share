@@ -1,12 +1,26 @@
 <?php
-if (isset($_SESSION['user_id'])) {
-    header("Location: /profile");
+require_once __DIR__ . '/../lib/SchoolRepository.php';
+
+use Lib\SchoolRepository;
+
+//** @var SchoolRepository $schoolRepository */
+$schools = $schoolRepository->getAllSchools() ?? [];
+
+if (isset($_SESSION['username'])) {
+    header("Location: /home");
     exit;
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $_SESSION['user_id'] = htmlspecialchars($_POST['username']);
-    $_SESSION['user_email'] = htmlspecialchars($_POST['email']);
-    header("Location: /home");
+
+    $_SESSION['username'] = htmlspecialchars($_POST['username']);
+    $_SESSION['email'] = htmlspecialchars($_POST['email']);
+    $schoolName = htmlspecialchars($_POST['school'] ?? '');
+    $schoolId = $schoolRepository->getSchoolByName($schoolName)?->id ?? null;
+    if ($schoolId) {
+        $_SESSION['schoolId'] = $schoolId;
+    }
+
+    header("Location: /choose-degree");
     exit;
 }
 ?>
@@ -29,6 +43,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="text" class="form-control" id="username"
                             name="username" placeholder="Username" required>
                         <label for="username">Username</label>
+                    </div>
+                    <div class="form-floating">
+                        <input list="schoolList" name="school" class="form-control"
+                            placeholder="School">
+                        <label for="school">School</label>
+                        <datalist id="schoolList">
+                            <?php foreach ($schools as $school): ?>
+                                <option value="<?= htmlspecialchars($school->name) ?>">
+                                <?php endforeach; ?>
+                        </datalist>
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" placeholder="Password"

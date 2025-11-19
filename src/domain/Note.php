@@ -12,8 +12,15 @@ class Note
     public string $subject;
     public int $grade;
 
-    public function __construct(int $id, string $title, ?string $description, string $date, string $user, string $subject, int $grade)
-    {
+    public function __construct(
+        int $id,
+        string $title,
+        ?string $description,
+        string $date,
+        string $user,
+        string $subject,
+        int $grade
+    ) {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;

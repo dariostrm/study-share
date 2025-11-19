@@ -1,11 +1,13 @@
 <?php
+require_once __DIR__ . '/../domain/Degree.php';
 
 use Domain\Degree;
 
 /** @var Degree $degree */
+/** @var int $schoolId */
 ?>
 
-<a href="<?php echo "/degrees/" . $degree->id ?>" class="btn btn-dark border w-100 p-0">
+<a href="<?php echo "/school/" . $schoolId . "/degree/" . $degree->id ?>" class="btn btn-dark border w-100 p-0">
     <div class="container p-0">
         <div class="row">
             <div class="col">
