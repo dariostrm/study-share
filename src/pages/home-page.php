@@ -36,7 +36,7 @@ if (isset($_SESSION['degreeId']) && isset($_SESSION['schoolId'])) {
         <div class="row">
             <div class="d-flex align-items-center justify-content-between border-bottom pb-1">
                 <h2>My Notes</h2>
-                <button class="btn btn-primary btn-sm">Upload Note</button>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploadNoteModal">Upload Note</button>
             </div>
             <?php if (empty($myNotes)): ?>
                 <p>No notes available.</p>
@@ -62,3 +62,5 @@ if (isset($_SESSION['degreeId']) && isset($_SESSION['schoolId'])) {
         </div>
     <?php endif; ?>
 </div>
+
+<?php require_once '../components/upload_note_modal.php'; ?>

@@ -39,4 +39,4 @@ if (!empty($searchQuery)) {
     <?php endif; ?>
 </div>
 
-<?php require '../components/submit_school_modal.php'; ?>
+<?php require_once '../components/submit_school_modal.php'; ?>
