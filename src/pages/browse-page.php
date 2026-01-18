@@ -6,6 +6,18 @@ use Lib\SchoolRepository;
 /** @var SchoolRepository $schoolRepository */
 $schools = $schoolRepository->getAllSchools() ?? [];
 
+$searchQuery = isset($_GET['query']) ? trim($_GET['query']) : '';
+
+if (!empty($searchQuery)) {
+    $filteredSchools = [];
+    foreach ($schools as $school) {
+        if (stripos($school->name, $searchQuery) !== false) {
+            array_push($filteredSchools, $school);
+        }
+    }
+    $schools = $filteredSchools;
+}
+
 ?>
 
 <div class="container">

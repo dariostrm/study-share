@@ -16,17 +16,15 @@
     session_start();
 
     require_once __DIR__ . '/../lib/SchoolRepository.php';
-
     use Lib\SchoolRepository;
 
     $schoolRepository = new SchoolRepository();
 
     $isLoggedIn = isset($_SESSION['username']);
 
-    //parse_url extracts the url path
-    //e.g. http://study-share.site/home will just return home (it will cut off the domain)
+    //e.g. http://study-share.site/home will just return home
     $route = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-    //split into segments by /
+    //e.g. splits /school/5/degree/10 into an array with school,5,degree,10
     $routeSegments = explode('/', $route);
     $page = $routeSegments[0] ?? '';
     ?>
@@ -36,7 +34,7 @@
     <?php
     switch ($page) {
         case 'home':
-        case '': // Default page (if no URL is specified)
+        case '': // same as home
             require __DIR__ . '/../pages/home-page.php';
             break;
         case 'login':

@@ -62,8 +62,8 @@
                     </li>
                 <?php endif; ?>
             </ul>
-            <form class="d-flex col-lg order-lg-2" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="d-flex col-lg order-lg-2" role="search" action="browse" method="GET">
+                <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">Search</button>
             </form>
         </div>
