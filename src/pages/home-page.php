@@ -1,32 +1,64 @@
 <?php
 require_once __DIR__ . '/../lib/SchoolRepository.php';
+require_once __DIR__ . '/../domain/School.php';
+require_once __DIR__ . '/../domain/Degree.php';
+require_once __DIR__ . '/../domain/Note.php';
 
 use Lib\SchoolRepository;
+use Domain\School;
+use Domain\Degree;
+use Domain\Note;
 
-$notes = [];
+$myNotes = [];
 if (isset($_SESSION['degreeId']) && isset($_SESSION['schoolId'])) {
     $schoolId = $_SESSION['schoolId'];
     $degreeId = $_SESSION['degreeId'];
 
     /** @var SchoolRepository $schoolRepository */
-    $notes = $schoolRepository->getSchoolById($schoolId)?->getDegreeById($degreeId)?->getNotes() ?? [];
+    $school = $schoolRepository->getSchoolById($schoolId);
+    $degree = $school?->getDegreeById($degreeId);
+
+    $degreeNotes = $degree?->getNotes() ?? [];
+    $myNotes = array_filter($degreeNotes, fn($note) => $note->user === $_SESSION['username']);
 }
 
 ?>
 
 <div class="container mt-3">
-    <div class="row">
-        <?php if (!isset($_SESSION['degreeId']) || !isset($_SESSION['schoolId'])): ?>
+    <?php if (!isset($_SESSION['degreeId']) || !isset($_SESSION['schoolId'])): ?>
+        <div class="row">
             <div class="col-12 d-flex flex-column justify-content-center align-items-center gap-3">
-                <h3>Please <a href="/login">login</a> or <a href="/sign-up">sign up</a> to see notes of your school and degree.</h3>
+                <h3>Please <a href="/login">login</a> or <a href="/sign-up">sign up</a> to see myNotes of your school and degree.</h3>
                 <h5 class="text-muted">Or <a href="/browse">Browse</a> existing schools and degrees.</h5>
             </div>
-        <?php else: ?>
-            <?php foreach ($notes as $note): ?>
+        </div>
+    <?php else: ?>
+        <div class="row">
+            <div class="d-flex align-items-center justify-content-between border-bottom pb-1">
+                <h2>My Notes</h2>
+                <button class="btn btn-primary btn-sm">Upload Note</button>
+            </div>
+            <?php if (empty($myNotes)): ?>
+                <p>No notes available.</p>
+            <?php endif; ?>
+            <?php foreach ($myNotes as $note): ?>
                 <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3 d-flex justify-content-center align-items-stretch">
                     <?php require '../components/note_card.php'; ?>
                 </div>
             <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
+        </div>
+        <div class="row mt-5">
+            <div class="d-flex align-items-center justify-content-between border-bottom pb-1">
+                <h2><?php echo $degree->name; ?> Notes</h2>
+            </div>
+            <?php if (empty($degreeNotes)): ?>
+                <p>No notes available.</p>
+            <?php endif; ?>
+            <?php foreach ($degreeNotes as $note): ?>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3 d-flex justify-content-center align-items-stretch">
+                    <?php require '../components/note_card.php'; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </div>

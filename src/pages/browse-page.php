@@ -3,6 +3,7 @@ require_once __DIR__ . '/../lib/SchoolRepository.php';
 
 use Lib\SchoolRepository;
 
+/** @var bool $isLoggedIn */
 /** @var SchoolRepository $schoolRepository */
 $schools = $schoolRepository->getAllSchools() ?? [];
 
@@ -30,10 +31,12 @@ if (!empty($searchQuery)) {
         <?php endforeach; ?>
     </div>
 
-    <div class="flex-shrink-0 d-flex justify-content-center align-items-center border-top pt-3">
-        <p class="mb-0 mx-2">Cannot find your school?</p>
-        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#suggestModal">Suggest a new one</button>
-    </div>
+    <?php if ($isLoggedIn): ?>
+        <div class="flex-shrink-0 d-flex justify-content-center align-items-center border-top pt-3">
+            <p class="mb-0 mx-2">Cannot find your school?</p>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#suggestModal">Suggest a new one</button>
+        </div>
+    <?php endif; ?>
 </div>
 
 <?php require '../components/submit_school_modal.php'; ?>
