@@ -10,18 +10,18 @@ class Degree
     public int $id;
     public int $schoolId;
     public string $name;
-    public int $semesterCount;
+    public int $gradeCount;
     public int $studentCount;
 
     /** @var Note[] */
     private array $notes = [];
 
-    public function __construct(int $id, int $schoolId, string $name, int $semesterCount, int $studentCount, array $notes = [])
+    public function __construct(int $id, int $schoolId, string $name, int $gradeCount, int $studentCount, array $notes = [])
     {
         $this->id = $id;
         $this->schoolId = $schoolId;
         $this->name = $name;
-        $this->semesterCount = $semesterCount;
+        $this->gradeCount = $gradeCount;
         $this->studentCount = $studentCount;
         $this->notes = $notes;
     }

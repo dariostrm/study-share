@@ -16,6 +16,7 @@
     session_start();
 
     require_once __DIR__ . '/../lib/SchoolRepository.php';
+
     use Lib\SchoolRepository;
 
     $schoolRepository = new SchoolRepository();
@@ -57,6 +58,9 @@
             break;
         case 'browse':
             require __DIR__ . '/../pages/browse-page.php';
+            break;
+        case 'upload':
+            require __DIR__ . '/../pages/upload_note_page.php';
             break;
         case 'school':
             $schoolId = $routeSegments[1] ?? null;

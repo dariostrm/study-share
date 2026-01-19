@@ -27,7 +27,7 @@ class SchoolRepository
                     new Degree(
                         id: 1,
                         schoolId: 1,
-                        semesterCount: 6,
+                        gradeCount: 6,
                         name: "Computer Science",
                         studentCount: 2000,
                         notes: [
@@ -54,7 +54,7 @@ class SchoolRepository
                     new Degree(
                         id: 2,
                         schoolId: 1,
-                        semesterCount: 6,
+                        gradeCount: 6,
                         name: "Information Technology",
                         studentCount: 1500,
                         notes: [
@@ -82,7 +82,7 @@ class SchoolRepository
                         id: 3,
                         schoolId: 2,
                         name: "Biology",
-                        semesterCount: 6,
+                        gradeCount: 6,
                         studentCount: 1200,
                         notes: [
                             new Note(
@@ -108,7 +108,7 @@ class SchoolRepository
                     new Degree(
                         id: 4,
                         schoolId: 2,
-                        semesterCount: 6,
+                        gradeCount: 6,
                         name: "Chemistry",
                         studentCount: 800
                     ),

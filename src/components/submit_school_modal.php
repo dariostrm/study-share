@@ -1,5 +1,4 @@
 <?php
-$suggestError = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['suggest_school'])) {
     $name = htmlspecialchars($_POST['name']);
@@ -8,8 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['suggest_school'])) {
     $studentCount = htmlspecialchars($_POST['studentCount']);
 
     //validate form
-    if (empty($name) || empty($country) || empty($city)) {
-        $suggestError = "Name, country, and city are required.";
+    if (empty($name) || empty($country) || empty($city) || empty($studentCount)) {
+        //display error somewhere
     }
 
     //db stuff
@@ -18,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['suggest_school'])) {
 
 <div class="modal fade" id="suggestModal" tabindex="-1" aria-labelledby="suggestModalLabel" aria-hidden="true">
     <form method="POST">
-        <input type="hidden" name="suggest_school" value="1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -46,16 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['suggest_school'])) {
                             name="studentCount" placeholder="Student Count" min="0" max="1000000">
                         <label for="studentCount">Student Count</label>
                     </div>
-
-                    <?php if ($suggestError): ?>
-                        <div class="alert alert-danger" role="alert">
-                            <?php echo htmlspecialchars($suggestError) ?>
-                        </div>
-                    <?php endif; ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" name="suggest_school" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </div>
