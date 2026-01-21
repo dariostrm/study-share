@@ -18,6 +18,16 @@ class Location
         $this->countryName = $countryName;
     }
 
+    public static function construct(array $data): Location
+    {
+        return new Location(
+            (int)$data['city_id'],
+            $data['city_name'],
+            (int)$data['country_id'],
+            $data['country_name']
+        );
+    }
+
     public function toString(): string {
         return "{$this->cityName}, {$this->countryName}";
     }

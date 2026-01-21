@@ -1,6 +1,8 @@
 <?php
 namespace domain;
 
+use mysqli;
+
 class School
 {
     public int $id;
@@ -9,16 +11,26 @@ class School
     public int $studentCount;
     public ?string $logoPath = null;
 
-    /** @var Degree[] */
-    private array $degrees;
+    private mysqli $mysqli;
 
-    public function __construct(int $id, string $name, Location $location, int $studentCount, array $degrees = [])
+    public function __construct(int $id, string $name, Location $location, int $studentCount, mysqli $mysqli)
     {
         $this->id = $id;
         $this->name = $name;
         $this->location = $location;
         $this->studentCount = $studentCount;
-        $this->degrees = $degrees;
+        $this->mysqli = $mysqli;
+    }
+
+    public static function construct(array $data, mysqli $mysqli): School
+    {
+        return new School(
+            (int)$data['id'],
+            $data['name'],
+            Location::construct($data['location']),
+            (int)$data['studentCount'],
+            $mysqli
+        );
     }
 
     /**
@@ -26,34 +38,55 @@ class School
      */
     public function getDegrees(): array
     {
-        return $this->degrees;
+        $sql = "SELECT * FROM degrees WHERE school_id = ?";
+        $statement = $this->mysqli->prepare($sql);
+        $statement->bind_param("i", $this->id);
+        $statement->execute();
+        $result = $statement->get_result();
+        $degrees = [];
+        while ($row = $result->fetch_assoc()) {
+            $degrees[] = Degree::construct($row, $this, $this->mysqli);
+        }
+        return $degrees;
     }
     public function addDegree(Degree $degree): void
     {
-        array_push($this->degrees, $degree);
+        $sql = "INSERT INTO degrees (id, name, grade_count, student_count, school_id) VALUES (?, ?, ?, ?, ?)";
+        $statement = $this->mysqli->prepare($sql);
+        $statement->bind_param("isiii", $degree->id, $degree->name, $degree->gradeCount, $degree->studentCount, $this->id);
+        $statement->execute();
     }
     
     public function removeDegree(int $degreeId): void
     {
-        $this->degrees = array_filter($this->degrees, fn($degree) => $degree->id !== $degreeId);
+        $sql = "DELETE FROM degrees WHERE id = ? AND school_id = ?";
+        $statement = $this->mysqli->prepare($sql);
+        $statement->bind_param("ii", $degreeId, $this->id);
+        $statement->execute();
     }
 
     public function getDegreeById(int $degreeId): ?Degree
     {
-        foreach ($this->degrees as $degree) {
-            if ($degree->id === $degreeId) {
-                return $degree;
-            }
+        $sql = "SELECT * FROM degrees WHERE id = ? AND school_id = ?";
+        $statement = $this->mysqli->prepare($sql);
+        $statement->bind_param("ii", $degreeId, $this->id);
+        $statement->execute();
+        $result = $statement->get_result();
+        if ($row = $result->fetch_assoc()) {
+            return Degree::construct($row, $this, $this->mysqli);
         }
         return null;
     }
 
     public function getDegreeByName(string $degreeName): ?Degree
     {
-        foreach ($this->degrees as $degree) {
-            if ($degree->name === $degreeName) {
-                return $degree;
-            }
+        $sql = "SELECT * FROM degrees WHERE name = ? AND school_id = ?";
+        $statement = $this->mysqli->prepare($sql);
+        $statement->bind_param("si", $degreeName, $this->id);
+        $statement->execute();
+        $result = $statement->get_result();
+        if ($row = $result->fetch_assoc()) {
+            return Degree::construct($row, $this, $this->mysqli);
         }
         return null;
     }
