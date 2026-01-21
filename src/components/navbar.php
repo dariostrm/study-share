@@ -4,6 +4,11 @@
 
 //the route variable is defined in index.php
 /** @var string $page */
+
+/** @var Session $session */
+
+use domain\Session;
+
 ?>
 
 <nav class="navbar navbar-expand-lg p-3">
@@ -35,7 +40,7 @@
                 </li>
             </ul>
             <ul class="navbar-nav col-lg order-lg-last d-lg-flex justify-content-end">
-                <?php if (!$isLoggedIn): ?>
+                <?php if (!isset($session)): ?>
                     <li class="nav-item">
                         <a href="/login"
                            class="nav-link <?php echo $page === 'login' ? 'active' : ''; ?>">
@@ -58,6 +63,15 @@
                     <li class="nav-item">
                         <a href="/logout" class="nav-link link-danger">
                             Logout
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <?php
+                if ($session->user->isAdmin): ?>
+                    <li class="nav-item">
+                        <a href="/admin"
+                           class="nav-link link-primary <?php echo $page === 'admin' ? 'active' : ''; ?>">
+                            Admin
                         </a>
                     </li>
                 <?php endif; ?>

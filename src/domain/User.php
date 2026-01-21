@@ -30,7 +30,8 @@ class User
             $data['username'],
             $data['email'],
             (int)$data['degree_id'],
-            (int)$data['school_id']
+            (int)$data['school_id'],
+            (bool)$data['is_admin']
         );
     }
 
