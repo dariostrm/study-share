@@ -1,5 +1,5 @@
 <?php
-use Domain\Degree;
+use domain\Degree;
 
 /** @var Degree $degree */
 /** @var int $schoolId */

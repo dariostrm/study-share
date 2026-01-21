@@ -1,24 +1,22 @@
 <?php
-namespace Domain;
+namespace domain;
 
 class School
 {
     public int $id;
     public string $name;
-    public string $country;
-    public string $city;
+    public Location $location;
     public int $studentCount;
     public ?string $logoPath = null;
 
     /** @var Degree[] */
     private array $degrees;
 
-    public function __construct(int $id, string $name, string $country, string $city, int $studentCount, array $degrees = [])
+    public function __construct(int $id, string $name, Location $location, int $studentCount, array $degrees = [])
     {
         $this->id = $id;
         $this->name = $name;
-        $this->country = $country;
-        $this->city = $city;
+        $this->location = $location;
         $this->studentCount = $studentCount;
         $this->degrees = $degrees;
     }

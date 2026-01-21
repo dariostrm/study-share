@@ -2,9 +2,8 @@
   "name": "yourname/study-share",
   "autoload": {
     "psr-4": {
-      "Domain\\": "domain/",
-      "DTO\\": "dto/",
-      "Lib\\": "lib/"
+      "domain\\": "domain/",
+      "lib\\": "lib/"
     }
   }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use Lib\SchoolRepository;
+use lib\SchoolRepository;
 
 /** @var bool $isLoggedIn */
 /** @var SchoolRepository $schoolRepository */

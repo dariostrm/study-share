@@ -1,5 +1,5 @@
 <?php
-use Domain\Note;
+use domain\Note;
 
 /** @var Note $note */
 ?>

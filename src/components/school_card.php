@@ -1,5 +1,5 @@
 <?php
-use Domain\School;
+use domain\School;
 
 /** @var School $school */
 ?>

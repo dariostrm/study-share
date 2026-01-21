@@ -1,5 +1,5 @@
 <?php
-use Lib\SchoolRepository;
+use lib\SchoolRepository;
 
 /** @var int $schoolId */
 /** @var SchoolRepository $schoolRepository */

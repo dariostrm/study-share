@@ -17,10 +17,11 @@
 
     // Classes are automatically loaded via Composer (a dependency manager for PHP)
     require_once __DIR__ . '/../vendor/autoload.php';
+    $db = require_once __DIR__ . '/../lib/db.php';
 
-    use Lib\SchoolRepository;
+    use lib\SchoolRepository;
 
-    $schoolRepository = new SchoolRepository();
+    $schoolRepository = new SchoolRepository($db);
 
     $isLoggedIn = isset($_SESSION['username']);
 

@@ -1,6 +1,6 @@
 <?php
-use Lib\SchoolRepository;
-use Domain\School;
+use lib\SchoolRepository;
+use domain\School;
 //** @var SchoolRepository $schoolRepository */
 
 $error = '';

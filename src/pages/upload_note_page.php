@@ -1,9 +1,9 @@
 <?php
 
-use Lib\SchoolRepository;
-use Domain\School;
-use Domain\Degree;
-use Domain\Note;
+use lib\SchoolRepository;
+use domain\School;
+use domain\Degree;
+use domain\Note;
 
 /** @var bool $isLoggedIn */
 /** @var SchoolRepository $schoolRepository */

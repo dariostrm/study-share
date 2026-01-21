@@ -1,5 +1,5 @@
 <?php
-use Lib\SchoolRepository;
+use lib\SchoolRepository;
 /** @var SchoolRepository $schoolRepository */
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {

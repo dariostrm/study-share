@@ -1,6 +1,6 @@
 <?php
 
-use Lib\SchoolRepository;
+use lib\SchoolRepository;
 /** @var SchoolRepository $schoolRepository */
 
 $myNotes = [];
