@@ -1,4 +1,6 @@
 <?php
+$error = '';
+
 if (isset($_SESSION['user_id'])) {
     header("Location: /home");
     exit;
@@ -40,6 +42,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="password">Password</label>
                     </div>
                     <a href="/reset-password">Forgot Password?</a>
+
+                    <?php if ($error): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo htmlspecialchars($error) ?>
+                        </div>
+                    <?php endif; ?>
 
                     <button type="submit" class="btn btn-primary mt-4">Login</button>
                 </form>
