@@ -8,7 +8,7 @@ use Domain\Note;
 class Degree
 {
     public int $id;
-    public int $schoolId;
+    public School $school;
     public string $name;
     public int $gradeCount;
     public int $studentCount;
@@ -16,10 +16,10 @@ class Degree
     /** @var Note[] */
     private array $notes = [];
 
-    public function __construct(int $id, int $schoolId, string $name, int $gradeCount, int $studentCount, array $notes = [])
+    public function __construct(int $id, School $school, string $name, int $gradeCount, int $studentCount, array $notes = [])
     {
         $this->id = $id;
-        $this->schoolId = $schoolId;
+        $this->school = $school;
         $this->name = $name;
         $this->gradeCount = $gradeCount;
         $this->studentCount = $studentCount;
