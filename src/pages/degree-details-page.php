@@ -10,7 +10,7 @@ use lib\SchoolRepository;
 $notes = $schoolRepository->getSchoolById($schoolId)?->getDegreeById($degreeId)?->getNotes() ?? [];
 
 //filters
-filterNotes($notes);
+$notes = filterNotes($notes);
 
 
 ?>

@@ -5,8 +5,6 @@ use domain\Session;
 /** @var Session $session */
 /**
  * @param array $notes
- * @return void
- * @throws DateMalformedStringException
  */
 function filterNotes(array $notes): array
 {
