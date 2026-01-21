@@ -2,9 +2,6 @@
 
 namespace Domain;
 
-require_once __DIR__ . '/Note.php';
-use Domain\Note;
-
 class Degree
 {
     public int $id;

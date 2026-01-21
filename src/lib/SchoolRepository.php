@@ -2,13 +2,7 @@
 
 namespace Lib;
 
-require_once __DIR__ . '/../domain/School.php';
-require_once __DIR__ . '/../domain/Degree.php';
-require_once __DIR__ . '/../domain/Note.php';
-
-use Domain\Note;
 use Domain\School;
-use Domain\Degree;
 
 class SchoolRepository
 {

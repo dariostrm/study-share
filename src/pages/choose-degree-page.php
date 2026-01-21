@@ -1,8 +1,6 @@
 <?php
 
 //** @var int $schoolId */
-use Domain\Degree;
-use Domain\School;
 
 if (isset($_SESSION['degreeId'])) {
     header("Location: /home");

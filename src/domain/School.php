@@ -1,10 +1,6 @@
 <?php
 namespace Domain;
 
-require_once __DIR__ . '/Degree.php';
-use Domain\Degree;
-
-
 class School
 {
     public int $id;

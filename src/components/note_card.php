@@ -1,6 +1,4 @@
 <?php
-require_once __DIR__ . '/../domain/Note.php';
-
 use Domain\Note;
 
 /** @var Note $note */

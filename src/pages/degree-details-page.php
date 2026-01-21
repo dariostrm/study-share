@@ -1,6 +1,4 @@
 <?php
-require_once __DIR__ . '/../lib/SchoolRepository.php';
-
 use Lib\SchoolRepository;
 
 /** @var int $schoolId */

@@ -1,6 +1,4 @@
 <?php
-require_once __DIR__ . '/../domain/School.php';
-
 use Domain\School;
 
 /** @var School $school */

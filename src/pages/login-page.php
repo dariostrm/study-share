@@ -1,8 +1,4 @@
 <?php
-require_once __DIR__ . '/../lib/SchoolRepository.php';
-
-use Lib\SchoolRepository;
-
 if (isset($_SESSION['username'])) {
     header("Location: /home");
     exit;

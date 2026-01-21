@@ -1,10 +1,9 @@
 <?php
-require_once __DIR__ . '/../lib/SchoolRepository.php';
-
 use Lib\SchoolRepository;
 
 /** @var int $schoolId */
 /** @var SchoolRepository $schoolRepository */
+
 $selectedSchool = $schoolRepository->getSchoolById($schoolId);
 ?>
 

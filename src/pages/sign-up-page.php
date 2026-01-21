@@ -1,11 +1,10 @@
 <?php
-require_once __DIR__ . '/../lib/SchoolRepository.php';
-
 use Lib\SchoolRepository;
+use Domain\School;
+//** @var SchoolRepository $schoolRepository */
 
 $error = '';
 
-//** @var SchoolRepository $schoolRepository */
 $schools = $schoolRepository->getAllSchools() ?? [];
 
 if (isset($_SESSION['username'])) {

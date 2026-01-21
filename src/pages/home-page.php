@@ -1,20 +1,13 @@
 <?php
-require_once __DIR__ . '/../lib/SchoolRepository.php';
-require_once __DIR__ . '/../domain/School.php';
-require_once __DIR__ . '/../domain/Degree.php';
-require_once __DIR__ . '/../domain/Note.php';
 
 use Lib\SchoolRepository;
-use Domain\School;
-use Domain\Degree;
-use Domain\Note;
+/** @var SchoolRepository $schoolRepository */
 
 $myNotes = [];
 if (isset($_SESSION['degreeId']) && isset($_SESSION['schoolId'])) {
     $schoolId = $_SESSION['schoolId'];
     $degreeId = $_SESSION['degreeId'];
 
-    /** @var SchoolRepository $schoolRepository */
     $school = $schoolRepository->getSchoolById($schoolId);
     $degree = $school?->getDegreeById($degreeId);
 
@@ -49,7 +42,7 @@ if (isset($_SESSION['degreeId']) && isset($_SESSION['schoolId'])) {
         </div>
         <div class="row mt-5">
             <div class="d-flex align-items-center justify-content-between border-bottom pb-1">
-                <h2><?php echo $degree->name; ?> Notes</h2>
+                <h2><?php echo $degree?->name; ?> Notes</h2>
             </div>
             <?php if (empty($degreeNotes)): ?>
                 <p>No notes available.</p>

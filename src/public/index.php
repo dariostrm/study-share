@@ -15,7 +15,8 @@
     <?php
     session_start();
 
-    require_once __DIR__ . '/../lib/SchoolRepository.php';
+    // Classes are automatically loaded via Composer (a dependency manager for PHP)
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     use Lib\SchoolRepository;
 

@@ -1,11 +1,6 @@
 <?php
-require_once __DIR__ . '/../domain/School.php';
-require_once __DIR__ . '/../domain/Degree.php';
-require_once __DIR__ . '/../lib/SchoolRepository.php';
-
-use Domain\Degree;
-use Domain\School;
 use Lib\SchoolRepository;
+/** @var SchoolRepository $schoolRepository */
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
     $_SESSION['username'] = htmlspecialchars($_POST['username']);
@@ -20,8 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
     header("Location: /profile");
     exit;
 }
-
-/** @var SchoolRepository $schoolRepository */
 
 $schools = $schoolRepository->getAllSchools() ?? [];
 $degrees = [];
