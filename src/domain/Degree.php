@@ -64,6 +64,15 @@ class Degree
         return $statement->execute();
     }
 
+    public function approve(): void
+    {
+        $sql = "UPDATE degrees SET is_approved = 1 WHERE id = ?";
+        $statement = $this->mysqli->prepare($sql);
+        $statement->bind_param("i", $this->id);
+        $statement->execute();
+        $this->isApproved = true;
+    }
+
     public function removeNote(int $noteId): void
     {
         $sql = "DELETE FROM notes WHERE id = ? AND degree_id = ?";

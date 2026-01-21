@@ -82,6 +82,7 @@ switch ($page) {
         require __DIR__ . '/../pages/browse-page.php';
         break;
     case 'admin':
+        $adminPage = $routeSegments[1] ?? 'schools'; // default to schools
         require __DIR__ . '/../pages/admin-page.php';
         break;
     case 'notes':

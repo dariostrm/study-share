@@ -86,6 +86,13 @@ class School
         $statement->execute();
     }
 
+    public function approve() : void {
+        $sql = "UPDATE schools SET is_approved = 1 WHERE id = ?";
+        $statement = $this->mysqli->prepare($sql);
+        $statement->bind_param("i", $this->id);
+        $statement->execute();
+    }
+
     public function getDegreeById(int $degreeId): ?Degree
     {
         $sql = "SELECT * FROM degrees WHERE id = ? AND school_id = ?";
