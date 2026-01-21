@@ -70,12 +70,12 @@ class School
         return $degrees;
     }
 
-    public function addDegree(Degree $degree): void
+    public function addDegree(string $name, int $gradeCount, int $schoolId, ?int $student_count = null): bool
     {
-        $sql = "INSERT INTO degrees (id, name, grade_count, student_count, school_id) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO degrees (name, grade_count, student_count, school_id) VALUES (?, ?, ?, ?)";
         $statement = $this->mysqli->prepare($sql);
-        $statement->bind_param("isiii", $degree->id, $degree->name, $degree->gradeCount, $degree->studentCount, $this->id);
-        $statement->execute();
+        $statement->bind_param("siii", $name, $gradeCount, $student_count, $schoolId);
+        return $statement->execute();
     }
 
     public function removeDegree(int $degreeId): void

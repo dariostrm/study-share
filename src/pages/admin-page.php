@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 /** @var SchoolRepository $schoolRepository */
 $schools = $schoolRepository->getAllSchools();
-$schools = array_filter($schools, function($school) { return !$school->isApproved; });
+$filteredSchools = array_filter($schools, function($school) { return !$school->isApproved; });
 
 $degrees = [];
 foreach ($schools as $school) {
@@ -75,7 +75,7 @@ foreach ($schools as $school) {
 
 <?php if ($adminPage === 'schools') : ?>
     <div class="flex-grow-1">
-        <?php foreach ($schools as $school): ?>
+        <?php foreach ($filteredSchools as $school): ?>
             <div class="row d-flex justify-content-center">
                 <div class="col-12 col-md-10 col-xl-8 my-2">
                     <div class="d-flex flex-column flex-sm-row gap-2 align-items-stretch">

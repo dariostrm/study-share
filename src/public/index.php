@@ -44,7 +44,7 @@ $route = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 echo "<script>console.log('Route: " . $route . "');</script>";
 //e.g. splits /school/5/degree/10 into an array with school,5,degree,10
 $routeSegments = explode('/', $route);
-$page = $routeSegments[0] ?? '';
+$page = $routeSegments[0] ?? 'home';
 
 $generalError = '';
 ?>
@@ -115,6 +115,11 @@ switch ($page) {
         if (isset($routeSegments[2]) && $routeSegments[2] === 'degree') {
             // Example: /school/5/degree/10
             $degreeId = $routeSegments[3] ?? null;
+
+            if (isset($routeSegments[3]) && $routeSegments[3] === 'suggest') {
+                require __DIR__ . '/../pages/suggest-degree-page.php';
+                break;
+            }
 
             if (!$degreeId) {
                 http_response_code(404);
