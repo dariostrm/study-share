@@ -76,6 +76,9 @@
         case 'upload':
             require __DIR__ . '/../pages/upload_note_page.php';
             break;
+        case 'download':
+            require __DIR__ . '/../pages/download-page.php';
+            break;
         case 'school':
             $schoolId = $routeSegments[1] ?? null;
 

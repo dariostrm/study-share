@@ -20,3 +20,6 @@ src/config/config.php
 *.log
 tmp/
 cache/
+
+# Uploads
+uploads/

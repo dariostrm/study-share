@@ -53,22 +53,12 @@ class Degree
         return $notes;
     }
 
-    public function addNote(Note $note): void
+    public function addNote(string $title, ?string $description, int $userId, ?string $filePath, string $subject, int $grade): bool
     {
-        $sql = "INSERT INTO notes (id, title, description, created_at, user_id, degree_id, file_path, subject, grade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO notes (title, description, user_id, degree_id, file_path, subject, grade) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $statement = $this->mysqli->prepare($sql);
-        $statement->bind_param("isssiissi",
-            $note->id,
-            $note->title,
-            $note->description,
-            $note->date,
-            $note->user->id,
-            $this->id,
-            $note->filePath,
-            $note->subject,
-            $note->grade
-        );
-        $statement->execute();
+        $statement->bind_param("ssisssi", $title, $description, $userId, $this->id, $filePath, $subject, $grade);
+        return $statement->execute();
     }
 
     public function removeNote(int $noteId): void

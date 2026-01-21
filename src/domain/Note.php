@@ -2,12 +2,14 @@
 
 namespace domain;
 
+use DateTime;
+
 class Note
 {
     public int $id;
     public string $title;
     public ?string $description;
-    public string $date;
+    public DateTime $date;
     public User $user;
     public Degree $degree;
     public ?string $filePath;
@@ -28,7 +30,7 @@ class Note
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
-        $this->date = $date;
+        $this->date = new DateTime($date);
         $this->user = $user;
         $this->degree = $degree;
         $this->filePath = $filePath;
@@ -42,7 +44,7 @@ class Note
             (int)$data['id'],
             $data['title'],
             $data['description'] ?? null,
-            $data['date'],
+            $data['created_at'],
             $user,
             $degree,
             $data['file_path'] ?? null,

@@ -1,37 +1,67 @@
 <?php
 
+use domain\Session;
 use lib\SchoolRepository;
-use domain\School;
-use domain\Degree;
 use domain\Note;
 
-/** @var bool $isLoggedIn */
+/** @var Session $session */
 /** @var SchoolRepository $schoolRepository */
-if (!$isLoggedIn) {
+if (!isset($session)) {
     header('Location: /login');
     exit;
 }
 
 if (isset($_POST['uploadNote'])) {
-    // Handle the note upload logic here
-    header('Location: /home');
-    exit;
+    $title = htmlspecialchars($_POST['title']);
+    $subject = htmlspecialchars($_POST['subject']);
+    $grade = (int)$_POST['grade'];
+    $description = htmlspecialchars($_POST['description'] ?? '');
+
+    // Handle file upload
+    if (isset($_FILES['noteFile']) && $_FILES['noteFile']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['noteFile']['tmp_name'];
+        $fileName = $_FILES['noteFile']['name'];
+        $fileSize = $_FILES['noteFile']['size'];
+        $fileType = $_FILES['noteFile']['type'];
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+
+        // Allowed file extensions
+        $allowedfileExtensions = ['pdf', 'docx', 'pptx', 'md', 'txt'];
+
+        if (in_array($fileExtension, $allowedfileExtensions)) {
+            $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+            $relativePath = '/uploads/' . $newFileName;
+            $absolutePath = realpath(__DIR__ . "/../public") . $relativePath;
+
+            $uploadFileDir = dirname($absolutePath);
+            if (!is_dir($uploadFileDir)) {
+                mkdir($uploadFileDir, 0755, true);
+            }
+
+            if (move_uploaded_file($fileTmpPath, $absolutePath)) {
+                // Save note to database
+                $success = $session->degree->addNote($title, $description, $session->user->id, $relativePath, $subject, $grade);
+                if ($success) {
+                    header('Location: /browse');
+                    exit;
+                } else {
+                    $uploadNoteError = 'Error saving note to database.';
+                }
+            } else {
+                $uploadNoteError = 'Error moving the uploaded file.';
+            }
+        } else {
+            $uploadNoteError = 'Upload failed. Allowed file types: ' . implode(',', $allowedfileExtensions);
+        }
+    } else {
+        $uploadNoteError = 'No file uploaded or there was an upload error.';
+    }
 }
 
 $uploadNoteError = '';
-$date = date('Y-m-d');
 
-$schoolId = $_SESSION['schoolId'];
-$degreeId = $_SESSION['degreeId'];
-
-$school = $schoolRepository->getSchoolById($schoolId);
-$degree = $school?->getDegreeById($degreeId);
-if ($degree === null) {
-    header('Location: /home');
-    exit;
-}
-
-$degreeNotes = $degree->getNotes();
+$degreeNotes = $session->degree->getNotes();
 $subjects = array_map(fn($note) => $note->subject, $degreeNotes);
 ?>
 
@@ -47,11 +77,6 @@ $subjects = array_map(fn($note) => $note->subject, $degreeNotes);
                         <label for="title">Title</label>
                     </div>
                     <div class="form-floating">
-                        <input type="date" class="form-control" id="date"
-                            name="date" placeholder="Date" value="<?php echo $date ?>" max="<?php echo $date ?>" required>
-                        <label for="date">Date</label>
-                    </div>
-                    <div class="form-floating">
                         <input list="subjectList" name="subject" class="form-control"
                             placeholder="Subject" required>
                         <label for="subject">Subject</label>
@@ -63,7 +88,7 @@ $subjects = array_map(fn($note) => $note->subject, $degreeNotes);
                     </div>
                     <div class="form-floating">
                         <input type="number" class="form-control" id="grade"
-                            name="grade" placeholder="Grade/Semester" min="1" max="<?php echo $degree->gradeCount ?>" required>
+                            name="grade" placeholder="Grade/Semester" min="1" max="<?php echo $session->degree->gradeCount ?>" required>
                         <label for="grade">Grade/Semester</label>
                     </div>
                     <div>
@@ -74,7 +99,7 @@ $subjects = array_map(fn($note) => $note->subject, $degreeNotes);
                     <!-- File upload -->
                     <div>
                         <label for="noteFile" class="form-label">Upload Note (.pdf, .docx, .pptx, .md, .txt)</label>
-                        <input class="form-control" type="file" id="noteFile" name="noteFile">
+                        <input class="form-control" type="file" id="noteFile" name="noteFile" accept=".pdf,.docx,.pptx,.md,.txt" required>
                     </div>
 
                     <?php if ($uploadNoteError): ?>
