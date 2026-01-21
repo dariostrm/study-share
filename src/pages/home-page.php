@@ -1,24 +1,17 @@
 <?php
 
-use lib\SchoolRepository;
-/** @var SchoolRepository $schoolRepository */
+use domain\Session;
 
-$myNotes = [];
-if (isset($_SESSION['degreeId']) && isset($_SESSION['schoolId'])) {
-    $schoolId = $_SESSION['schoolId'];
-    $degreeId = $_SESSION['degreeId'];
-
-    $school = $schoolRepository->getSchoolById($schoolId);
-    $degree = $school?->getDegreeById($degreeId);
-
-    $degreeNotes = $degree?->getNotes() ?? [];
-    $myNotes = array_filter($degreeNotes, fn($note) => $note->user === $_SESSION['username']);
+/** @var Session $session */
+if ($session !== null) {
+    $degreeNotes = $session->degree->getNotes() ?? [];
+    $myNotes = array_filter($degreeNotes, fn($note) => $note->user->id === $session->user->id);
 }
 
 ?>
 
 <div class="container mt-3">
-    <?php if (!isset($_SESSION['degreeId']) || !isset($_SESSION['schoolId'])): ?>
+    <?php if ($session === null): ?>
         <div class="row">
             <div class="col-12 d-flex flex-column justify-content-center align-items-center gap-3">
                 <h3>Please <a href="/login">login</a> or <a href="/sign-up">sign up</a> to see myNotes of your school and degree.</h3>
@@ -42,7 +35,7 @@ if (isset($_SESSION['degreeId']) && isset($_SESSION['schoolId'])) {
         </div>
         <div class="row mt-5">
             <div class="d-flex align-items-center justify-content-between border-bottom pb-1">
-                <h2><?php echo $degree?->name; ?> Notes</h2>
+                <h2><?php echo $session->degree->name; ?> Notes</h2>
             </div>
             <?php if (empty($degreeNotes)): ?>
                 <p>No notes available.</p>

@@ -42,7 +42,7 @@ class SchoolRepository
         $statement->execute();
         $result = $statement->get_result();
         if ($row = $result->fetch_assoc()) {
-            return School::construct($row);
+            return School::construct($row, $this->mysqli);
         }
         return null;
     }

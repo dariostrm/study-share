@@ -1,5 +1,6 @@
 <?php
 
+use domain\Session;
 use domain\User;
 
 $error = '';
@@ -46,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $degreeId = $degrees[0]->id ?? null;
         if ($degreeId) {
             $user = User::signUp($username, $email, $hashedPassword, $degreeId, $school->id, $mysqli);
+            $session = new Session($user, $school, $school->getDegreeById($degreeId));
             $_SESSION['user_id'] = $user->id;
             header("Location: /home");
         }

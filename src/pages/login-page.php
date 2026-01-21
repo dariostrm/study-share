@@ -1,4 +1,7 @@
 <?php
+
+use domain\Session;
+
 $error = '';
 
 if (isset($_SESSION['user_id'])) {
@@ -11,9 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     /** @var mysqli $mysqli */
+    /** @var $user */
     $user = domain\User::signIn($username, $password, $mysqli);
     if ($user) {
         $_SESSION['user_id'] = $user->id;
+        /** @var $schoolRepository */
+        $session = Session::fromUser($user, $schoolRepository);
         header("Location: /home");
         exit;
     } else {

@@ -1,6 +1,7 @@
 <?php
 
 
+use domain\Session;
 use lib\SchoolRepository;
 use domain\User;
 
@@ -10,7 +11,7 @@ if (!isset($_SESSION['school_id']) || !isset($_SESSION['temp_user'])) {
 }
 $schoolId = $_SESSION['school_id'];
 
-/** @var SchoolRepository $schoolRepository */
+/** @var $schoolRepository */
 $school = $schoolRepository->getSchoolById($schoolId);
 if (!$school) {
     header("Location: /sign-up");
@@ -19,13 +20,15 @@ if (!$school) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $degreeId = htmlspecialchars($_POST['degree'] ?? '');
+    $degreeId = $_POST['degree'];
     $tempUser = $_SESSION['temp_user'];
     /** @var mysqli $mysqli */
+    /** @var $user */
     $user = User::signUp($tempUser['username'], $tempUser['email'], $tempUser['password'], (int)$degreeId, $school->id, $mysqli);
     unset($_SESSION['temp_user']);
     unset($_SESSION['school_id']);
     $_SESSION['user_id'] = $user->id;
+    $session = new Session($user, $school, $school->getDegreeById((int)$degreeId));
     header("Location: /home");
     exit;
 }

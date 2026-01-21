@@ -19,11 +19,21 @@
     require_once __DIR__ . '/../vendor/autoload.php';
     $mysqli = require_once __DIR__ . '/../lib/db.php';
 
+    use domain\Session;
+    use domain\User;
     use lib\SchoolRepository;
 
     $schoolRepository = new SchoolRepository($mysqli);
 
     $isLoggedIn = isset($_SESSION['user_id']);
+    if ($isLoggedIn) {
+        $user = User::getById((int)$_SESSION['user_id'], $mysqli);
+        $session = Session::fromUser($user, $schoolRepository);
+    } else {
+        $isLoggedIn = false;
+        $session = null;
+        unset($_SESSION['user_id']);
+    }
 
     //e.g. http://study-share.site/home will just return home
     $route = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
