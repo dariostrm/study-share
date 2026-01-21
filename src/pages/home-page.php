@@ -14,7 +14,8 @@ if ($session !== null) {
     <?php if ($session === null): ?>
         <div class="row">
             <div class="col-12 d-flex flex-column justify-content-center align-items-center gap-3">
-                <h3>Please <a href="/login">login</a> or <a href="/sign-up">sign up</a> to see myNotes of your school and degree.</h3>
+                <h3>Please <a href="/login">login</a> or <a href="/sign-up">sign up</a> to see myNotes of your school
+                    and degree.</h3>
                 <h5 class="text-muted">Or <a href="/browse">Browse</a> existing schools and degrees.</h5>
             </div>
         </div>
@@ -22,7 +23,7 @@ if ($session !== null) {
         <div class="row">
             <div class="d-flex align-items-center justify-content-between border-bottom pb-1">
                 <h2>My Notes</h2>
-                <a class="btn btn-primary btn-sm" href="upload">Upload Note</a>
+                <a class="btn btn-primary btn-sm" href="notes/upload">Upload Note</a>
             </div>
             <?php if (empty($myNotes)): ?>
                 <p>No notes available.</p>
