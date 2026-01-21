@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit;
 }
 
-$degrees = $school->getDegrees();
+$degrees = $school->getDegrees(true);
 
 ?>
 
@@ -42,7 +42,8 @@ $degrees = $school->getDegrees();
         <div class="card col-10 col-md-8 col-lg-6 col-xl-4 bg-dark-subtle p-4 rounded-4">
             <div class="card-body d-flex flex-column align-items-center gap-4 w-100">
                 <h2>Choose Degree</h2>
-                <form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="post" class="d-flex flex-column gap-3 w-100">
+                <form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="post"
+                      class="d-flex flex-column gap-3 w-100">
                     <div class="form-floating">
                         <select class="form-select" id="degreeSelect" name="degree" aria-label="Select degree">
                             <?php foreach ($degrees as $deg): ?>

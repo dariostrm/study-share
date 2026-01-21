@@ -1,22 +1,19 @@
 <?php
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['suggest_school'])) {
-    $name = htmlspecialchars($_POST['name']);
-    $country = htmlspecialchars($_POST['country']);
-    $city = htmlspecialchars($_POST['city']);
-    $studentCount = htmlspecialchars($_POST['studentCount']);
+//get all countries and cities for the form
 
-    //validate form
-    if (empty($name) || empty($country) || empty($city) || empty($studentCount)) {
-        //display error somewhere
-    }
+/** @var mysqli $mysqli */
+/** @var SchoolRepository $schoolRepository */
 
-    //db stuff
-}
+use domain\Location;
+use lib\SchoolRepository;
+
+$countries = Location::getAllCountries($mysqli);
+$cities = Location::getAllCities($mysqli);
 ?>
 
 <div class="modal fade" id="suggestModal" tabindex="-1" aria-labelledby="suggestModalLabel" aria-hidden="true">
-    <form method="POST">
+    <form method="GET" action="/school/suggest">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -26,22 +23,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['suggest_school'])) {
                 <div class="modal-body d-flex flex-column gap-3">
                     <div class="form-floating">
                         <input type="text" class="form-control" id="name"
-                            name="name" placeholder="Name" required>
+                               name="name" placeholder="Name" required>
                         <label for="name">Name</label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="country"
-                            name="country" placeholder="Country" required>
-                        <label for="country">Country</label>
+                        <select class="form-select" id="countrySelect" name="country" aria-label="Select country">
+                            <?php foreach ($countries as $country): ?>
+                                <option value="<?= $country['id'] ?>">
+                                    <?= $country['name'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <label for="countrySelect">Country</label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="city"
-                            name="city" placeholder="City" required>
+                        <input list="cityList" name="city" class="form-control"
+                               placeholder="City" required>
                         <label for="city">City</label>
+                        <datalist id="countyList">
+                            <?php foreach (Location::getAllCities($mysqli) as $city): ?>
+                                <option value="<?= htmlspecialchars($city['name']) ?>">
+                            <?php endforeach; ?>
+                        </datalist>
                     </div>
                     <div class="form-floating">
-                        <input type="number" class="form-control" id="studentCount"
-                            name="studentCount" placeholder="Student Count" min="0" max="1000000">
+                        <input type="number" class="form-control" id="studentCount" value="0"
+                               name="studentCount" placeholder="Student Count" min="0" max="1000000">
                         <label for="studentCount">Student Count</label>
                     </div>
                 </div>

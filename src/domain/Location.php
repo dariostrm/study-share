@@ -2,6 +2,8 @@
 
 namespace domain;
 
+use mysqli;
+
 class Location
 {
     public int $cityId;
@@ -28,7 +30,51 @@ class Location
         );
     }
 
-    public function toString(): string {
+    public function toString(): string
+    {
         return "{$this->cityName}, {$this->countryName}";
+    }
+
+    public static function getAllCountries(mysqli $mysqli): array
+    {
+        $sql = "SELECT id, name FROM countries ORDER BY name";
+        $statement = $mysqli->prepare($sql);
+        $statement->execute();
+        $result = $statement->get_result();
+        $countries = [];
+        while ($row = $result->fetch_assoc()) {
+            $countries[] = $row;
+        }
+        return $countries;
+    }
+
+    public static function getAllCities(mysqli $mysqli): array
+    {
+        $sql = "SELECT id, name FROM cities ORDER BY name";
+        $statement = $mysqli->prepare($sql);
+        $statement->execute();
+        $result = $statement->get_result();
+        $cities = [];
+        while ($row = $result->fetch_assoc()) {
+            $cities[] = $row;
+        }
+        return $cities;
+    }
+
+    public static function getCitiesInCountry(mysqli $mysqli, int $countryId): array
+    {
+        $sql = "SELECT id, name as name 
+                FROM cities
+                WHERE country_id = ?
+                ORDER BY name";
+        $statement = $mysqli->prepare($sql);
+        $statement->bind_param("i", $countryId);
+        $statement->execute();
+        $result = $statement->get_result();
+        $cities = [];
+        while ($row = $result->fetch_assoc()) {
+            $cities[] = $row;
+        }
+        return $cities;
     }
 }

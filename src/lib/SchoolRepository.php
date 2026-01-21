@@ -67,20 +67,21 @@ class SchoolRepository
         return null;
     }
 
-    public function addSchool(School $school): void
+    public function addSchool(string $name, int $cityId, ?int $studentCount = null, ?string $logoPath = null): bool
     {
-        $sql = "INSERT INTO schools (id, name, student_count, logo_path, city_id) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO schools (name, student_count, logo_path, city_id) VALUES (?, ?, ?, ?)";
         $statement = $this->mysqli->prepare($sql);
-        $statement->bind_param("isisi", $school->id, $school->name, $school->studentCount, $school->logoPath, $school->location->cityId);
-        $statement->execute();
+        $statement->bind_param("sisi", $name, $studentCount, $logoPath, $cityId);
+        return $statement->execute();
     }
 
-    public function removeSchool(int $schoolId): void
+    public function removeSchool(int $schoolId): bool
     {
         $sql = "DELETE FROM schools WHERE id = ?";
         $statement = $this->mysqli->prepare($sql);
         $statement->bind_param("i", $schoolId);
-        $statement->execute();
+        $success = $statement->execute();
+        return $success && $statement->affected_rows > 0;
     }
 
 }

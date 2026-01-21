@@ -45,6 +45,8 @@ echo "<script>console.log('Route: " . $route . "');</script>";
 //e.g. splits /school/5/degree/10 into an array with school,5,degree,10
 $routeSegments = explode('/', $route);
 $page = $routeSegments[0] ?? '';
+
+$generalError = '';
 ?>
 
 <?php include_once '../components/navbar.php'; ?>
@@ -54,6 +56,9 @@ switch ($page) {
     case 'home':
     case '': // same as home
         require __DIR__ . '/../pages/home-page.php';
+        break;
+    case 'error':
+        require __DIR__ . '/../pages/error-page.php';
         break;
     case 'login':
         require __DIR__ . '/../pages/login-page.php';
@@ -93,7 +98,11 @@ switch ($page) {
         }
         break;
     case 'school':
-        $schoolId = $routeSegments[1] ?? null;
+        if ($routeSegments[1] === "suggest") {
+            require __DIR__ . '/../pages/suggest-school-page.php';
+            break;
+        }
+        $schoolId = (int)$routeSegments[1] ?? null;
 
         if (!$schoolId) {
             http_response_code(404);
