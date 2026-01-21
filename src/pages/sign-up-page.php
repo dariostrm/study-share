@@ -1,13 +1,14 @@
 <?php
-use lib\SchoolRepository;
-use domain\School;
-//** @var SchoolRepository $schoolRepository */
+
+use domain\User;
 
 $error = '';
+$choseSchool = false;
 
+/** @var $schoolRepository */
 $schools = $schoolRepository->getAllSchools() ?? [];
 
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['user_id'])) {
     header("Location: /home");
     exit;
 }
@@ -16,12 +17,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = htmlspecialchars($_POST['username']);
     $email = htmlspecialchars($_POST['email']);
     $schoolName = htmlspecialchars($_POST['school'] ?? '');
-    $schoolId = $schoolRepository->getSchoolByName($schoolName)?->id ?? null;
-    if ($schoolId) {
-        $_SESSION['username'] = $username;
-        $_SESSION['email'] = $email;
-        $_SESSION['schoolId'] = $schoolId;
-        header("Location: /choose-degree");
+    $school = $schoolRepository->getSchoolByName($schoolName) ?? null;
+    $password = $_POST['password'];
+    $confirm = $_POST['confirm'];
+    if ($password !== $confirm) {
+        $error = 'Passwords do not match.';
+    } elseif (strlen($password) < 8) {
+        $error = 'Password must be at least 8 characters long.';
+    }
+
+    /** @var mysqli $mysqli */
+    if ($school && User::checkUnique($username, $email, $mysqli)) {
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        if ($school->hasMultipleDegrees()) {
+            //redirect to degree selection
+            $_SESSION['temp_user'] = [
+                'username' => $username,
+                'email' => $email,
+                'password' => $hashedPassword
+            ];
+            $_SESSION['school_id'] = $school->id;
+            header("Location: /choose-degree");
+            exit;
+        }
+
+        //The school has only one degree, assign it directly
+        $degrees = $school->getDegrees();
+        $degreeId = $degrees[0]->id ?? null;
+        if ($degreeId) {
+            $user = User::signUp($username, $email, $hashedPassword, $degreeId, $school->id, $mysqli);
+            $_SESSION['user_id'] = $user->id;
+            header("Location: /home");
+        }
+        else {
+            $error = 'An error occurred during sign up. Please try again.';
+        }
         exit;
     } else {
         $error = 'Selected school does not exist.';

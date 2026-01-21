@@ -30,8 +30,8 @@ class Degree
             (int)$data['id'],
             $school,
             $data['name'],
-            (int)$data['gradeCount'],
-            (int)$data['studentCount'],
+            (int)$data['grade_count'],
+            (int)$data['student_count'],
             $mysqli
         );
     }

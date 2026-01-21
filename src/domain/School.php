@@ -27,10 +27,23 @@ class School
         return new School(
             (int)$data['id'],
             $data['name'],
-            Location::construct($data['location']),
-            (int)$data['studentCount'],
+            Location::construct($data),
+            ((int)$data['student_count']) ?? -1,
             $mysqli
         );
+    }
+
+    public function hasMultipleDegrees(): bool
+    {
+        $sql = "SELECT COUNT(*) as degree_count FROM degrees WHERE school_id = ?";
+        $statement = $this->mysqli->prepare($sql);
+        $statement->bind_param("i", $this->id);
+        $statement->execute();
+        $result = $statement->get_result();
+        if ($row = $result->fetch_assoc()) {
+            return (int)$row['degree_count'] > 1;
+        }
+        return false;
     }
 
     /**

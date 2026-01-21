@@ -1,25 +1,31 @@
 <?php
 
-//** @var int $schoolId */
 
-if (isset($_SESSION['degreeId'])) {
-    header("Location: /home");
-    exit;
-}
-if (!isset($_SESSION['schoolId'])) {
+use lib\SchoolRepository;
+use domain\User;
+
+if (!isset($_SESSION['school_id']) || !isset($_SESSION['temp_user'])) {
     header("Location: /sign-up");
     exit;
 }
-$schoolId = $_SESSION['schoolId'];
+$schoolId = $_SESSION['school_id'];
+
+/** @var SchoolRepository $schoolRepository */
 $school = $schoolRepository->getSchoolById($schoolId);
+if (!$school) {
+    header("Location: /sign-up");
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $degreeName = htmlspecialchars($_POST['degree'] ?? '');
-    $degree = $school?->getDegreeByName($degreeName);
-    if ($degree) {
-        $_SESSION['degreeId'] = $degree->id;
-    }
-
+    $degreeId = htmlspecialchars($_POST['degree'] ?? '');
+    $tempUser = $_SESSION['temp_user'];
+    /** @var mysqli $mysqli */
+    $user = User::signUp($tempUser['username'], $tempUser['email'], $tempUser['password'], (int)$degreeId, $school->id, $mysqli);
+    unset($_SESSION['temp_user']);
+    unset($_SESSION['school_id']);
+    $_SESSION['user_id'] = $user->id;
     header("Location: /home");
     exit;
 }
@@ -37,7 +43,7 @@ $degrees = $school->getDegrees();
                     <div class="form-floating">
                         <select class="form-select" id="degreeSelect" name="degree" aria-label="Select degree">
                             <?php foreach ($degrees as $deg): ?>
-                                <option value="<?= htmlspecialchars($deg->name) ?>">
+                                <option value="<?= htmlspecialchars($deg->id) ?>">
                                     <?= htmlspecialchars($deg->name) ?>
                                 </option>
                             <?php endforeach; ?>

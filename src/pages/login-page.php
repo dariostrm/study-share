@@ -1,13 +1,22 @@
 <?php
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['user_id'])) {
     header("Location: /home");
     exit;
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $_SESSION['username'] = htmlspecialchars($_POST['username']);
-    header("Location: /home");
-    exit;
+    $username = htmlspecialchars($_POST['username']);
+    $password = $_POST['password'];
+
+    /** @var mysqli $mysqli */
+    $user = domain\User::signIn($username, $password, $mysqli);
+    if ($user) {
+        $_SESSION['user_id'] = $user->id;
+        header("Location: /home");
+        exit;
+    } else {
+        $error = 'Invalid username or password.';
+    }
 }
 ?>
 

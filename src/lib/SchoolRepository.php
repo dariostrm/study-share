@@ -16,7 +16,7 @@ class SchoolRepository
 
     public function getAllSchools(): array
     {
-        $sql = "SELECT s.*,, c.id as city_id, c.name as city_name, co.id as country_id, co.name as country_name 
+        $sql = "SELECT s.*, c.id as city_id, c.name as city_name, co.id as country_id, co.name as country_name 
             FROM schools s
             JOIN cities c ON s.city_id = c.id
             JOIN countries co ON c.country_id = co.id";
@@ -32,7 +32,7 @@ class SchoolRepository
 
     public function getSchoolByName(string $name): ?School
     {
-        $sql = "SELECT s.*,, c.id as city_id, c.name as city_name, co.id as country_id, co.name as country_name 
+        $sql = "SELECT s.*, c.id as city_id, c.name as city_name, co.id as country_id, co.name as country_name 
             FROM schools s
             JOIN cities c ON s.city_id = c.id
             JOIN countries co ON c.country_id = co.id
@@ -43,6 +43,23 @@ class SchoolRepository
         $result = $statement->get_result();
         if ($row = $result->fetch_assoc()) {
             return School::construct($row);
+        }
+        return null;
+    }
+
+    public function getSchoolById(int $id): ?School
+    {
+        $sql = "SELECT s.*, c.id as city_id, c.name as city_name, co.id as country_id, co.name as country_name 
+            FROM schools s
+            JOIN cities c ON s.city_id = c.id
+            JOIN countries co ON c.country_id = co.id
+            WHERE s.id = ?";
+        $statement = $this->mysqli->prepare($sql);
+        $statement->bind_param("i", $id);
+        $statement->execute();
+        $result = $statement->get_result();
+        if ($row = $result->fetch_assoc()) {
+            return School::construct($row, $this->mysqli);
         }
         return null;
     }

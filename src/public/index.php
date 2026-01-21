@@ -17,13 +17,13 @@
 
     // Classes are automatically loaded via Composer (a dependency manager for PHP)
     require_once __DIR__ . '/../vendor/autoload.php';
-    $db = require_once __DIR__ . '/../lib/db.php';
+    $mysqli = require_once __DIR__ . '/../lib/db.php';
 
     use lib\SchoolRepository;
 
-    $schoolRepository = new SchoolRepository($db);
+    $schoolRepository = new SchoolRepository($mysqli);
 
-    $isLoggedIn = isset($_SESSION['username']);
+    $isLoggedIn = isset($_SESSION['user_id']);
 
     //e.g. http://study-share.site/home will just return home
     $route = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');

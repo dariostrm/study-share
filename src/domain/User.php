@@ -34,6 +34,45 @@ class User
         );
     }
 
+    public static function checkUnique(string $username, string $email, mysqli $mysqli): bool
+    {
+        $sql = "SELECT COUNT(*) as count FROM users WHERE username = ? OR email = ?";
+        $statement = $mysqli->prepare($sql);
+        $statement->bind_param("ss", $username, $email);
+        $statement->execute();
+        $result = $statement->get_result();
+        if ($row = $result->fetch_assoc()) {
+            return $row['count'] == 0;
+        }
+        return false;
+    }
+
+    public static function signUp(string $username, string $email, string $passwordHash, int $degreeId, int $schoolId, mysqli $mysqli): User
+    {
+        $sql = "INSERT INTO users (username, email, password_hash, degree_id, school_id) VALUES (?, ?, ?, ?, ?)";
+        $statement = $mysqli->prepare($sql);
+        $statement->bind_param("sssii", $username, $email, $passwordHash, $degreeId, $schoolId);
+        $statement->execute();
+        //get the inserted user id
+        $userId = $mysqli->insert_id;
+        return new User($userId, $username, $email, $degreeId, $schoolId);
+    }
+
+    public static function signIn(string $username, string $password, mysqli $mysqli): ?User
+    {
+        $sql = "SELECT * FROM users WHERE username = ?";
+        $statement = $mysqli->prepare($sql);
+        $statement->bind_param("s", $username);
+        $statement->execute();
+        $result = $statement->get_result();
+        if ($row = $result->fetch_assoc()) {
+            if (password_verify($password, $row['password_hash'])) {
+                return User::construct($row);
+            }
+        }
+        return null;
+    }
+
     public static function getById(int $id, mysqli $mysqli): ?User
     {
         $sql = "SELECT * FROM users WHERE id = ?";
