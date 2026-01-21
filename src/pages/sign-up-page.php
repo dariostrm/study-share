@@ -7,7 +7,7 @@ $error = '';
 $choseSchool = false;
 
 /** @var $schoolRepository */
-$schools = $schoolRepository->getAllSchools() ?? [];
+$schools = $schoolRepository->getAllSchools(true) ?? [];
 
 if (isset($_SESSION['user_id'])) {
     header("Location: /home");
@@ -19,6 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = htmlspecialchars($_POST['email']);
     $schoolName = htmlspecialchars($_POST['school'] ?? '');
     $school = $schoolRepository->getSchoolByName($schoolName) ?? null;
+    if ($school === null) {
+        $error = 'Selected school does not exist.';
+    } elseif ($school->isApproved === false) {
+        $error = 'Selected school is not approved yet.';
+    }
     $password = $_POST['password'];
     $confirm = $_POST['confirm'];
     if ($password !== $confirm) {
@@ -33,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($school->hasMultipleDegrees()) {
             //redirect to degree selection
             $_SESSION['temp_user'] = [
-                'username' => $username,
-                'email' => $email,
-                'password' => $hashedPassword
+                    'username' => $username,
+                    'email' => $email,
+                    'password' => $hashedPassword
             ];
             $_SESSION['school_id'] = $school->id;
             header("Location: /choose-degree");
@@ -50,8 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $session = new Session($user, $school, $school->getDegreeById($degreeId));
             $_SESSION['user_id'] = $user->id;
             header("Location: /home");
-        }
-        else {
+        } else {
             $error = 'An error occurred during sign up. Please try again.';
         }
         exit;
@@ -69,35 +73,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <p class="text-muted">
                     Already have an account? <a href="/login">Login</a>
                 </p>
-                <form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="post" class="d-flex flex-column gap-3 w-100">
+                <form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="post"
+                      class="d-flex flex-column gap-3 w-100">
                     <div class="form-floating">
                         <input type="email" class="form-control" id="email"
-                            name="email" placeholder="E-Mail" required>
+                               name="email" placeholder="E-Mail" required>
                         <label for="email">E-Mail</label>
                     </div>
                     <div class="form-floating">
                         <input type="text" class="form-control" id="username"
-                            name="username" placeholder="Username" required>
+                               name="username" placeholder="Username" required>
                         <label for="username">Username</label>
                     </div>
                     <div class="form-floating">
                         <input list="schoolList" name="school" class="form-control"
-                            placeholder="School" required>
+                               placeholder="School" required>
                         <label for="school">School</label>
                         <datalist id="schoolList">
-                            <?php foreach ($schools as $school): ?>
-                                <option value="<?= htmlspecialchars($school->name) ?>">
+                            <?php foreach ($schools
+
+                            as $school): ?>
+                            <option value="<?= htmlspecialchars($school->name) ?>">
                                 <?php endforeach; ?>
                         </datalist>
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" placeholder="Password"
-                            id="password" name="password" required>
+                               id="password" name="password" required>
                         <label for="password">Password</label>
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" placeholder="Confirm Password"
-                            id="confirm" name="confirm" required>
+                               id="confirm" name="confirm" required>
                         <label for="confirm">Confirm Password</label>
                     </div>
 

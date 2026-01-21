@@ -1,4 +1,5 @@
 <?php
+
 namespace domain;
 
 use mysqli;
@@ -10,15 +11,17 @@ class School
     public Location $location;
     public int $studentCount;
     public ?string $logoPath = null;
+    public bool $isApproved = false;
 
     private mysqli $mysqli;
 
-    public function __construct(int $id, string $name, Location $location, int $studentCount, mysqli $mysqli)
+    public function __construct(int $id, string $name, Location $location, int $studentCount, bool $isApproved, mysqli $mysqli)
     {
         $this->id = $id;
         $this->name = $name;
         $this->location = $location;
         $this->studentCount = $studentCount;
+        $this->isApproved = $isApproved;
         $this->mysqli = $mysqli;
     }
 
@@ -29,6 +32,7 @@ class School
             $data['name'],
             Location::construct($data),
             ((int)$data['student_count']) ?? -1,
+            (bool)$data['is_approved'],
             $mysqli
         );
     }
@@ -62,6 +66,7 @@ class School
         }
         return $degrees;
     }
+
     public function addDegree(Degree $degree): void
     {
         $sql = "INSERT INTO degrees (id, name, grade_count, student_count, school_id) VALUES (?, ?, ?, ?, ?)";
@@ -69,7 +74,7 @@ class School
         $statement->bind_param("isiii", $degree->id, $degree->name, $degree->gradeCount, $degree->studentCount, $this->id);
         $statement->execute();
     }
-    
+
     public function removeDegree(int $degreeId): void
     {
         $sql = "DELETE FROM degrees WHERE id = ? AND school_id = ?";

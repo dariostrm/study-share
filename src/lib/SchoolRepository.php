@@ -14,12 +14,15 @@ class SchoolRepository
         $this->mysqli = $mysqli;
     }
 
-    public function getAllSchools(): array
+    public function getAllSchools(bool $approvedOnly = false): array
     {
         $sql = "SELECT s.*, c.id as city_id, c.name as city_name, co.id as country_id, co.name as country_name 
             FROM schools s
             JOIN cities c ON s.city_id = c.id
             JOIN countries co ON c.country_id = co.id";
+        if ($approvedOnly) {
+            $sql .= " WHERE s.is_approved = 1";
+        }
         $statement = $this->mysqli->prepare($sql);
         $statement->execute();
         $result = $statement->get_result();
