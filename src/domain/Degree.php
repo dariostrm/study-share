@@ -11,20 +11,22 @@ class Degree
     public string $name;
     public int $gradeCount;
     public int $studentCount;
+    public bool $isApproved = false;
 
     private mysqli $mysqli;
 
-    public function __construct(int $id, School $school, string $name, int $gradeCount, int $studentCount, mysqli $mysqli)
+    public function __construct(int $id, School $school, string $name, int $gradeCount, int $studentCount, bool $isApproved, mysqli $mysqli)
     {
         $this->id = $id;
         $this->school = $school;
         $this->name = $name;
         $this->gradeCount = $gradeCount;
         $this->studentCount = $studentCount;
+        $this->isApproved = $isApproved;
         $this->mysqli = $mysqli;
     }
 
-    public static function construct(array $data, School $school, mysqli $mysqli) : Degree
+    public static function construct(array $data, School $school, mysqli $mysqli): Degree
     {
         return new Degree(
             (int)$data['id'],
@@ -32,6 +34,7 @@ class Degree
             $data['name'],
             (int)$data['grade_count'],
             (int)$data['student_count'],
+            (bool)$data['is_approved'],
             $mysqli
         );
     }

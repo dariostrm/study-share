@@ -39,7 +39,7 @@ class School
 
     public function hasMultipleDegrees(): bool
     {
-        $sql = "SELECT COUNT(*) as degree_count FROM degrees WHERE school_id = ?";
+        $sql = "SELECT COUNT(*) as degree_count FROM degrees WHERE school_id = ? AND is_approved = 1";
         $statement = $this->mysqli->prepare($sql);
         $statement->bind_param("i", $this->id);
         $statement->execute();
@@ -53,9 +53,12 @@ class School
     /**
      * @return Degree[]
      */
-    public function getDegrees(): array
+    public function getDegrees(bool $approvedOnly = false): array
     {
         $sql = "SELECT * FROM degrees WHERE school_id = ?";
+        if ($approvedOnly) {
+            $sql .= " AND is_approved = 1";
+        }
         $statement = $this->mysqli->prepare($sql);
         $statement->bind_param("i", $this->id);
         $statement->execute();
