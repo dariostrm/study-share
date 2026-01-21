@@ -37,6 +37,8 @@
 
     //e.g. http://study-share.site/home will just return home
     $route = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+    //console log the route for debugging
+    echo "<script>console.log('Route: " . $route . "');</script>";
     //e.g. splits /school/5/degree/10 into an array with school,5,degree,10
     $routeSegments = explode('/', $route);
     $page = $routeSegments[0] ?? '';

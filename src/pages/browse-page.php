@@ -24,7 +24,9 @@ if (!empty($searchQuery)) {
         <?php foreach ($schools as $school): ?>
             <div class="row d-flex justify-content-center">
                 <div class="col-12 col-md-10 col-xl-8 my-2">
-                    <?php require '../components/school_card.php'; ?>
+                    <a href="<?php echo "/school/" . $school->id ?>" class="btn btn-dark border w-100 p-0">
+                        <?php require '../components/school_card.php'; ?>
+                    </a>
                 </div>
             </div>
         <?php endforeach; ?>

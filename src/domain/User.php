@@ -85,4 +85,37 @@ class User
         }
         return null;
     }
+
+    public function changeUsername(string $newUsername, mysqli $mysqli): bool
+    {
+        $sql = "UPDATE users SET username = ? WHERE id = ?";
+        $statement = $mysqli->prepare($sql);
+        $statement->bind_param("si", $newUsername, $this->id);
+        $success = $statement->execute();
+        if ($success) {
+            $this->username = $newUsername;
+        }
+        return $success;
+    }
+
+    public function changeEmail(string $newEmail, mysqli $mysqli): bool
+    {
+        $sql = "UPDATE users SET email = ? WHERE id = ?";
+        $statement = $mysqli->prepare($sql);
+        $statement->bind_param("si", $newEmail, $this->id);
+        $success = $statement->execute();
+        if ($success) {
+            $this->email = $newEmail;
+        }
+        return $success;
+    }
+
+    public function changePassword(string $newPassword, mysqli $mysqli): bool
+    {
+        $newPasswordHash = password_hash($newPassword, PASSWORD_BCRYPT);
+        $sql = "UPDATE users SET password_hash = ? WHERE id = ?";
+        $statement = $mysqli->prepare($sql);
+        $statement->bind_param("si", $newPasswordHash, $this->id);
+        return $statement->execute();
+    }
 }
