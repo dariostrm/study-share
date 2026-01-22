@@ -9,6 +9,7 @@
 
 use domain\Session;
 
+
 ?>
 
 <nav class="navbar navbar-expand-lg p-3">
@@ -17,7 +18,8 @@ use domain\Session;
             <img src="/images/logo.svg" alt="Logo" width="35" class="d-inline-block align-text-top img-fluid">
             Study Share
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navItemContainer" aria-controls="navItemContainer" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navItemContainer"
+                aria-controls="navItemContainer" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse row-cols-lg-3" id="navItemContainer">

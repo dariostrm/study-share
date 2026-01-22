@@ -1,3 +1,9 @@
+<?php
+session_start();
+
+require_once '../components/dark_mode_handler.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,10 +19,9 @@
     <link rel="stylesheet" href="/styles/styles.css">
 </head>
 
-<body data-bs-theme="dark" class="d-flex flex-column vh-100">
+<body class="d-flex flex-column vh-100" data-bs-theme="<?= $darkMode ? 'dark' : 'light' ?>"">
 
 <?php
-session_start();
 
 // Classes are automatically loaded via Composer (a dependency manager for PHP)
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -40,8 +45,6 @@ if ($isLoggedIn) {
 
 //e.g. http://study-share.site/home will just return home
 $route = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-//console log the route for debugging
-echo "<script>console.log('Route: " . $route . "');</script>";
 //e.g. splits /school/5/degree/10 into an array with school,5,degree,10
 $routeSegments = explode('/', $route);
 $page = $routeSegments[0] ?? 'home';
@@ -142,6 +145,7 @@ switch ($page) {
         echo "Page not found";
         break;
 }
+echo "</div>";
 ?>
 
 </body>

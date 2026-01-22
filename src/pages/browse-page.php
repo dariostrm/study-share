@@ -3,6 +3,7 @@
 use domain\School;
 use lib\SchoolRepository;
 
+/** @var $darkMode */
 /** @var bool $isLoggedIn */
 /** @var SchoolRepository $schoolRepository */
 /** @var School[] $schools */
@@ -32,7 +33,7 @@ foreach ($schools as $school) {
             <?php foreach ($filteredSchools as $school): ?>
                 <div class="row d-flex justify-content-center">
                     <div class="col-12 col-md-10 col-xl-8 my-2">
-                        <a href="<?php echo "/school/" . $school->id ?>" class="btn btn-dark border w-100 p-0">
+                        <a href="<?php echo "/school/" . $school->id ?>" class="btn btn-<?= $darkMode ? "dark" : "light" ?> border w-100 p-0">
                             <?php require '../components/school_card.php'; ?>
                         </a>
                     </div>

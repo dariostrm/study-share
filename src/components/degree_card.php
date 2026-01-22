@@ -1,11 +1,12 @@
 <?php
 use domain\Degree;
 
+/** @var bool $darkMode */
 /** @var Degree $degree */
 /** @var int $schoolId */
 ?>
 
-<a href="<?php echo "/school/" . $schoolId . "/degree/" . $degree->id ?>" class="btn btn-dark border w-100 p-0">
+<a href="<?php echo "/school/" . $schoolId . "/degree/" . $degree->id ?>" class="btn btn-<?= $darkMode ? "dark" : "light" ?> border w-100 p-0">
     <div class="container p-0">
         <div class="row">
             <div class="col">

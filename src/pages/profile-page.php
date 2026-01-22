@@ -82,6 +82,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                 <button name="save" type="submit" class="btn btn-primary mt-4">Save</button>
             </div>
         </div>
+        <!-- Dark mode toggle -->
+        <div class="row my-3 d-flex justify-content-center">
+            <div class="col-auto">
+                <form action="<?= $_SERVER['REQUEST_URI']?>" method="post">
+                    <button type="submit" name="toggle_dark_mode" class="btn btn-secondary mt-4">Toggle Dark Mode</button>
+                </form>
+            </div>
+        </div>
         <!-- Error Message -->
         <?php if ($error): ?>
             <div class="row my-3 d-flex justify-content-center">
