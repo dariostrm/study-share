@@ -89,7 +89,7 @@ switch ($page) {
         // Example: /notes/upload
         $action = $routeSegments[1] ?? null;
 
-        if ($action === 'update') {
+        if ($action === 'upload') {
             require __DIR__ . '/../pages/upload_note_page.php';
         } else {
             http_response_code(404);
