@@ -19,48 +19,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = htmlspecialchars($_POST['email']);
     $schoolName = htmlspecialchars($_POST['school'] ?? '');
     $school = $schoolRepository->getSchoolByName($schoolName) ?? null;
+    $password = $_POST['password'];
+    $confirm = $_POST['confirm'];
     if ($school === null) {
         $error = 'Selected school does not exist.';
     } elseif ($school->isApproved === false) {
         $error = 'Selected school is not approved yet.';
-    }
-    $password = $_POST['password'];
-    $confirm = $_POST['confirm'];
-    if ($password !== $confirm) {
+    } elseif ($password !== $confirm) {
         $error = 'Passwords do not match.';
     } elseif (strlen($password) < 8) {
         $error = 'Password must be at least 8 characters long.';
-    }
-
-    /** @var mysqli $mysqli */
-    if ($school && User::checkUnique($username, $email, $mysqli)) {
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        if ($school->hasMultipleDegrees()) {
-            //redirect to degree selection
-            $_SESSION['temp_user'] = [
-                    'username' => $username,
-                    'email' => $email,
-                    'password' => $hashedPassword
-            ];
-            $_SESSION['school_id'] = $school->id;
-            header("Location: /choose-degree");
-            exit;
-        }
-
-        //The school has only one degree, assign it directly
-        $degrees = $school->getDegrees();
-        $degreeId = $degrees[0]->id ?? null;
-        if ($degreeId) {
-            $user = User::signUp($username, $email, $hashedPassword, $degreeId, $school->id, $mysqli);
-            $session = new Session($user, $school, $school->getDegreeById($degreeId));
-            $_SESSION['user_id'] = $user->id;
-            header("Location: /home");
-        } else {
-            $error = 'An error occurred during sign up. Please try again.';
-        }
-        exit;
     } else {
-        $error = 'Selected school does not exist.';
+        /** @var mysqli $mysqli */
+        if (User::checkUniqueUsername($username, $mysqli) && User::checkUniqueEmail($email, $mysqli)) {
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            if ($school->hasMultipleDegrees()) {
+                //redirect to degree selection
+                $_SESSION['temp_user'] = [
+                        'username' => $username,
+                        'email' => $email,
+                        'password' => $hashedPassword
+                ];
+                $_SESSION['school_id'] = $school->id;
+                header("Location: /choose-degree");
+                exit;
+            }
+
+            //The school has only one degree, assign it directly
+            $degrees = $school->getDegrees();
+            $degreeId = $degrees[0]->id ?? null;
+            if ($degreeId) {
+                $user = User::signUp($username, $email, $hashedPassword, $degreeId, $school->id, $mysqli);
+                $session = new Session($user, $school, $school->getDegreeById($degreeId));
+                $_SESSION['user_id'] = $user->id;
+                header("Location: /home");
+            } else {
+                $error = 'An error occurred during sign up. Please try again.';
+            }
+            exit;
+        } else {
+            $error = 'Selected school does not exist.';
+        }
     }
 }
 ?>

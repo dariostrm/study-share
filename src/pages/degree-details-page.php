@@ -1,5 +1,6 @@
 <?php
 
+use lib\NotesFilterer;
 use lib\SchoolRepository;
 
 /** @var int $schoolId */
@@ -10,7 +11,13 @@ use lib\SchoolRepository;
 $notes = $schoolRepository->getSchoolById($schoolId)?->getDegreeById($degreeId)?->getNotes() ?? [];
 
 //filters
-$notes = filterNotes($notes);
+$notes = NotesFilterer::filterNotes(
+    $notes,
+    $_GET['search'] ?? null,
+    $_GET['subject'] ?? null,
+    $_GET['grade'] ?? null,
+    $_GET['date_range'] ?? null
+);
 
 
 ?>

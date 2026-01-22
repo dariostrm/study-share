@@ -35,11 +35,24 @@ class User
         );
     }
 
-    public static function checkUnique(string $username, string $email, mysqli $mysqli): bool
+    public static function checkUniqueUsername(string $username, mysqli $mysqli): bool
     {
-        $sql = "SELECT COUNT(*) as count FROM users WHERE username = ? OR email = ?";
+        $sql = "SELECT COUNT(*) as count FROM users WHERE username = ?";
         $statement = $mysqli->prepare($sql);
-        $statement->bind_param("ss", $username, $email);
+        $statement->bind_param("s", $username);
+        $statement->execute();
+        $result = $statement->get_result();
+        if ($row = $result->fetch_assoc()) {
+            return $row['count'] == 0;
+        }
+        return false;
+    }
+
+    public static function checkUniqueEmail(string $email, mysqli $mysqli): bool
+    {
+        $sql = "SELECT COUNT(*) as count FROM users WHERE email = ?";
+        $statement = $mysqli->prepare($sql);
+        $statement->bind_param("s", $email);
         $statement->execute();
         $result = $statement->get_result();
         if ($row = $result->fetch_assoc()) {

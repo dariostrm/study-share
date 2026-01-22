@@ -12,13 +12,17 @@ $searchQuery = isset($_GET['query']) ? trim($_GET['query']) : '';
 
 $filteredSchools = [];
 foreach ($schools as $school) {
-    if (!empty($searchQuery)) {
-        if (stripos($school->name, $searchQuery) !== false) {
+
+    if ($school->isApproved) {
+        if (!empty($searchQuery)) {
+            if (stripos($school->name, $searchQuery) !== false) {
+                $filteredSchools[] = $school;
+            }
+        }
+        else {
             $filteredSchools[] = $school;
         }
     }
-    if ($school->isApproved)
-        $filteredSchools[] = $school;
 }
 
 

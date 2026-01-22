@@ -1,6 +1,7 @@
 <?php
 
 use domain\Session;
+use domain\User;
 use lib\SchoolRepository;
 /** @var SchoolRepository $schoolRepository */
 
@@ -17,18 +18,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
     $email = htmlspecialchars($_POST['email']);
 
     /** @var Session $session */
+    /** @var mysqli $mysqli */
     if ($username !== $session->user->username) {
-        /** @var mysqli $mysqli */
-        $success = $session->user->changeUsername($username, $mysqli);
-        if (!$success) {
+        if (User::checkUniqueUsername($username, $mysqli)) {
+            $success = $session->user->changeUsername($username, $mysqli);
+            if (!$success) {
+                $error = 'Username is already taken.';
+            }
+        } else {
             $error = 'Username is already taken.';
         }
     }
 
     if ($email !== $session->user->email) {
-        /** @var mysqli $mysqli */
-        $success = $session->user->changeEmail($email, $mysqli);
-        if (!$success) {
+        if (User::checkUniqueEmail($email, $mysqli)) {
+            $success = $session->user->changeEmail($email, $mysqli);
+            if (!$success) {
+                $error = 'E-Mail is already in use.';
+            }
+        } else {
             $error = 'E-Mail is already in use.';
         }
     }
@@ -74,5 +82,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                 <button name="save" type="submit" class="btn btn-primary mt-4">Save</button>
             </div>
         </div>
+        <!-- Error Message -->
+        <?php if ($error): ?>
+            <div class="row my-3 d-flex justify-content-center">
+                <div class="col-auto">
+                    <div class="alert alert-danger" role="alert">
+                        <?php echo htmlspecialchars($error) ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </form>

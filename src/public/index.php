@@ -86,12 +86,10 @@ switch ($page) {
         require __DIR__ . '/../pages/admin-page.php';
         break;
     case 'notes':
-        // Example: /notes/delete/15
+        // Example: /notes/upload
         $action = $routeSegments[1] ?? null;
 
-        if ($action === 'delete') {
-            require __DIR__ . '/../pages/delete_note_page.php';
-        } elseif ($action === 'upload') {
+        if ($action === 'update') {
             require __DIR__ . '/../pages/upload_note_page.php';
         } else {
             http_response_code(404);
@@ -114,7 +112,7 @@ switch ($page) {
         // Check if next segment is "degree"
         if (isset($routeSegments[2]) && $routeSegments[2] === 'degree') {
             // Example: /school/5/degree/10
-            $degreeId = $routeSegments[3] ?? null;
+            $degreeId = (int)$routeSegments[3] ?? null;
 
             if (isset($routeSegments[3]) && $routeSegments[3] === 'suggest') {
                 require __DIR__ . '/../pages/suggest-degree-page.php';
@@ -127,7 +125,11 @@ switch ($page) {
                 break;
             }
 
-            // Nested degree page
+            //is the user deleting a note: /school/5/degree/10/delete/15
+            if (isset($routeSegments[4]) && $routeSegments[4] === 'delete') {
+                require __DIR__ . '/../pages/delete_note_page.php';
+                break;
+            }
             require __DIR__ . '/../pages/degree-details-page.php';
             break;
         }

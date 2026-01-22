@@ -67,7 +67,7 @@ use domain\Session;
                     </li>
                 <?php endif; ?>
                 <?php
-                if ($session->user->isAdmin): ?>
+                if (isset($session) && $session->user->isAdmin): ?>
                     <li class="nav-item">
                         <a href="/admin/schools"
                            class="nav-link link-primary <?php echo $page === 'admin' ? 'active' : ''; ?>">

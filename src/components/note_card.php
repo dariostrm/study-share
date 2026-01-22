@@ -20,7 +20,7 @@ use domain\Session;
             </div>
             <?php if (isset($session) && ($note->user->id === $session->user->id || $session->user->isAdmin)): ?>
                 <div>
-                    <form action="<?= "notes/delete/" . $note->id ?>" method="POST">
+                    <form action="<?= "/school/" . $note->degree->school->id . "/degree/" . $note->degree->id . "/delete/" . $note->id ?>" method="POST">
                         <button type="submit" name="delete" value="<?= $note->id ?>"
                                 class="btn btn-sm btn-outline-danger">Delete
                         </button>
